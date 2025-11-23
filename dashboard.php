@@ -191,52 +191,118 @@ html, body, .content, .content-inner, .sidebar, .card, .home-card {max-width:100
       </div>
     </div>
 
-    <!-- HOME (kept home cards) -->
-    <section id="home" class="container-stack page" aria-labelledby="homeTitle">
-      <div class="card" id="homeContent">
-        <h3 id="homeTitle" class="section-title">Dashboard Home</h3>
-        <p class="small-muted">Overview</p>
+  <!-- HOME -->
+<section id="home" class="page">
+  <div class="row-gap">
 
-        <div class="home-cards" style="margin-top:10px">
-          <div class="home-card">
-            <h6>Profile</h6>
-            <p>Basic student information</p>
+    <!-- Profile Card -->
+    <div class="col-card card-box">
+      <div style="display:flex;align-items:center;gap:14px;">
+        <div style="flex:1;min-width:0;">
+          <div class="section-title">Profile</div>
+          <div class="text-muted">Basic information</div>
+          <div style="margin-top:10px;">
+            <strong>VALLURI SRI KRISHNA VARDAN</strong><br>
+            Roll: 2403031260215 | CSE (3CYBER3)
           </div>
-          <div class="home-card">
-            <h6>Attendance</h6>
-            <p>Quick snapshot</p>
-          </div>
-          <div class="home-card">
-            <h6>Hostel</h6>
-            <p>Room & passes</p>
-          </div>
-          <div class="home-card">
-            <h6>Results</h6>
-            <p>Semester results</p>
+          <div style="margin-top:4px;font-weight:600;">
+            Hostel Bed No: <span style="color:#0d6efd;">Bed 3</span>
           </div>
         </div>
-      </div>
-    </section>
 
-    <!-- STUDENT -->
-    <section id="student" class="page" style="display:none" aria-labelledby="studentTitle">
-      <div class="card">
-        <h3 id="studentTitle" class="section-title">Student Information</h3>
-
-        <!-- Grid of key-values that wrap responsively -->
-        <div class="kv-grid" role="list">
-          <div class="kv" role="listitem"><div class="k">Full name</div><div class="v">VALLURI SRI KRISHNA VARDAN</div></div>
-          <div class="kv" role="listitem"><div class="k">Roll No</div><div class="v">2403031260215</div></div>
-          <div class="kv" role="listitem"><div class="k">Branch</div><div class="v">CSE (3CYBER3)</div></div>
-          <div class="kv" role="listitem"><div class="k">DOB</div><div class="v">28-11-2006</div></div>
-          <div class="kv" role="listitem"><div class="k">Student Phone</div><div class="v">6281048554</div></div>
-          <div class="kv" role="listitem"><div class="k">College Email</div><div class="v">2403031260215@paruluniversity.ac.in</div></div>
-          <div class="kv" role="listitem"><div class="k">Personal Email</div><div class="v">krishnavardhan124@gmail.com</div></div>
-          <div class="kv" role="listitem"><div class="k">Father</div><div class="v">VALLURI VENKATA KRISHNANANDA CHOWDARY | 9951996671</div></div>
-          <div class="kv" role="listitem"><div class="k">Mother</div><div class="v">VALLURI VISALAKSHI | 6301244329</div></div>
+        <!-- Small profile placeholder -->
+        <div style="width:85px;text-align:center;">
+          <img src="your_profile_small.jpg" 
+            alt="Profile" 
+            style="width:75px;height:75px;object-fit:cover;border-radius:10px;border:2px solid #d7dce3;">
         </div>
       </div>
-    </section>
+    </div>
+
+    <!-- Attendance Snapshot -->
+    <div class="col-card card-box">
+      <div class="section-title">Attendance Snapshot</div>
+      <div class="text-muted">Quick overview</div>
+
+      <div style="margin-top:12px;">
+        <div class="progress" style="height:14px;">
+          <div class="progress-bar" 
+               role="progressbar" 
+               style="width: 94%;" 
+               aria-valuenow="94">94%</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hostel Card -->
+    <div class="col-card card-box">
+      <div class="section-title">Hostel</div>
+      <div class="text-muted">Room & Allocation</div>
+      <div style="margin-top:10px;">
+        <strong>TAGORE BHAWAN - C</strong><br>
+        Floor 3 | Room C-361 | <span style="color:#0d6efd;font-weight:600;">Bed 3</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+  
+          
+
+   <!-- STUDENT INFO -->
+<section id="student" class="page" style="display:none;">
+
+  <div class="card-box">
+
+    <!-- Medium placeholder -->
+    <div class="profile-pic text-center mb-3">
+      <img 
+        src="your_profile_medium.jpg"
+        alt="Student Photo"
+        style="width:160px;height:160px;object-fit:cover;border-radius:14px;border:3px solid #d0d0d0;">
+      <h5 class="fw-bold mt-3 mb-1">VALLURI SRI KRISHNA VARDAN</h5>
+      <div class="text-muted">Roll No: 2403031260215 | CSE (3CYBER3)</div>
+    </div>
+
+    <!-- Auto-wrapping grid, no overflow -->
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;">
+
+      <div class="card-box" style="padding:12px;">
+        <div class="text-muted">DOB</div>
+        <div style="font-weight:600;margin-top:6px;">28-11-2006</div>
+      </div>
+
+      <div class="card-box" style="padding:12px;">
+        <div class="text-muted">Student Phone</div>
+        <div style="font-weight:600;margin-top:6px;">6281048554</div>
+      </div>
+
+      <div class="card-box" style="padding:12px;">
+        <div class="text-muted">College Email</div>
+        <div style="word-break:break-all;font-weight:600;margin-top:6px;">
+          2403031260215@paruluniversity.ac.in
+        </div>
+      </div>
+
+      <div class="card-box" style="padding:12px;">
+        <div class="text-muted">Personal Email</div>
+        <div style="word-break:break-all;font-weight:600;margin-top:6px;">
+          krishnavardhan124@gmail.com
+        </div>
+      </div>
+
+    </div>
+
+    <div style="margin-top:18px;">
+      <div class="section-title">Parents / Guardian</div>
+      <p><strong>Father:</strong> VALLURI VENKATA KRISHNANANDA CHOWDARY | 9951996671</p>
+      <p><strong>Mother:</strong> VALLURI VISALAKSHI | 6301244329</p>
+    </div>
+
+  </div>
+
+</section>
+
 
     <!-- HOSTEL -->
     <section id="hostel" class="page" style="display:none" aria-labelledby="hostelTitle">
