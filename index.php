@@ -92,17 +92,18 @@ $bgUrl = $bg ? $bg : $fallbackBg;
 
     /* Glassmorphism / transparent login box */
     .login-box {
-      width: 100%;
-      max-width: 420px;
-      padding: 28px;
-      border-radius: 12px;
-      background: rgba(255,255,255,0.18); /* translucent white */
-      box-shadow: 0 8px 30px rgba(0,0,0,0.25);
-      border: 1px solid rgba(255,255,255,0.25);
-      backdrop-filter: blur(8px) saturate(120%);
-      -webkit-backdrop-filter: blur(8px) saturate(120%);
-      color: #0b1220;
-    }
+  width: 100%;
+  max-width: 330px;       /* smaller width */
+  padding: 18px 20px;     /* smaller padding */
+  border-radius: 12px;
+  background: rgba(255,255,255,0.20);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+  border: 1px solid rgba(255,255,255,0.25);
+  backdrop-filter: blur(10px) saturate(140%);
+  -webkit-backdrop-filter: blur(10px) saturate(140%);
+  color: #0b1220;
+}
+
 
     /* Slight stronger panel for inputs to increase contrast */
     .login-box .form-control {
@@ -169,3 +170,4 @@ $bgUrl = $bg ? $bg : $fallbackBg;
 
 </body>
 </html>
+
