@@ -17,77 +17,80 @@ if (!isset($_SESSION['student'])) {
 
 <style>
 
-/* ------- GLOBAL ------- */
+/* GLOBAL */
 body {
   margin: 0;
+  background: #f1f3f6;
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-  background: #f0f2f5;
   color: #1a1a1a;
   overflow-x: hidden;
 }
 
-/* ------- ANIMATIONS ------- */
+/* ANIMATIONS */
 @keyframes fade {
-  from { opacity: 0; transform: translateY(15px); }
+  from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
 }
 .page {
-  animation: fade 0.5s ease-out;
+  animation: fade 0.4s ease-out;
 }
 
-/* ------- LAYOUT ------- */
+/* LAYOUT CONTAINER */
 .layout {
   display: flex;
   height: 100vh;
   overflow: hidden;
 }
 
-/* ------- SIDEBAR ------- */
+/* SIDEBAR */
 .sidebar {
-  width: 230px;
-  background: #ffffff;
-  border-right: 1px solid #e0e3e7;
+  width: 250px;
+  background: white;
+  border-right: 1px solid #e1e3e7;
   padding-top: 25px;
-  padding-bottom: 20px;
+  padding-bottom: 25px;
+  flex-shrink: 0;
   overflow-y: auto;
 }
 .sidebar .logo {
   font-size: 22px;
   font-weight: 700;
-  padding: 0 22px;
-  margin-bottom: 25px;
+  padding: 0 25px;
+  margin-bottom: 30px;
 }
 .sidebar a {
   display: block;
-  padding: 12px 26px;
+  padding: 12px 28px;
   font-size: 15px;
   text-decoration: none;
-  color: #3b3b3b;
+  color: #3c3c3c;
   border-left: 4px solid transparent;
-  transition: 0.2s;
+  transition: 0.25s;
 }
 .sidebar a:hover,
 .sidebar a.active {
-  background: #f4f6f8;
+  background: #eef1f5;
   border-left: 4px solid #0d6efd;
   font-weight: 600;
 }
 
-/* ------- MOBILE SIDEBAR ------- */
+/* MOBILE SIDEBAR */
 .toggle-btn {
   display: none;
-  font-size: 22px;
+  font-size: 24px;
   cursor: pointer;
   margin-bottom: 14px;
 }
+
 @media(max-width:768px){
   .sidebar {
     position: fixed;
-    left: -230px;
+    left: -250px;
     top: 0;
+    bottom: 0;
     height: 100%;
     z-index: 200;
-    transition: 0.3s;
+    transition: 0.3s ease;
   }
   .sidebar.open {
     left: 0;
@@ -95,55 +98,71 @@ body {
   .toggle-btn {
     display: inline-block;
   }
+
+  .layout {
+    display: block;
+  }
+
+  .content {
+    padding: 18px !important;
+  }
 }
 
-/* ------- CONTENT AREA ------- */
+/* CONTENT */
 .content {
   flex: 1;
-  padding: 25px;
+  padding: 28px;
   overflow-y: auto;
 }
+
+/* TOPBAR */
 .topbar {
   background: white;
-  padding: 14px 20px;
+  padding: 16px 22px;
   border-radius: 12px;
   font-size: 18px;
   font-weight: 600;
-  box-shadow: 0 2px 14px rgba(0,0,0,0.06);
   margin-bottom: 24px;
+  box-shadow: 0 2px 14px rgba(0,0,0,0.06);
 }
 
-/* ------- CARDS ------- */
+/* CARD BOX */
 .card-box {
   background: white;
   border-radius: 14px;
   padding: 20px;
-  margin-bottom: 25px;
-  box-shadow: 0 4px 14px rgba(0,0,0,0.07);
+  margin-bottom: 24px;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.07);
 }
 
-/* ------- PROFILE ------- */
+/* PROFILE */
 .profile-pic {
   text-align: center;
-  margin-bottom: 15px;
 }
 .profile-pic img {
   width: 150px;
   border-radius: 14px;
-  border: 3px solid #ddd;
+  border: 3px solid #dcdcdc;
 }
 
-/* ------- TABLES ------- */
+/* TABLE CONTAINER */
 .table-container {
   background: white;
   padding: 20px;
   border-radius: 14px;
   box-shadow: 0 3px 12px rgba(0,0,0,0.05);
+  margin-bottom: 24px;
+}
+.table-container table {
+  width: 100%;
+}
+.table-container th {
+  background: #f5f6f9;
 }
 
-/* ------- SECTION TITLE ------- */
+/* TITLE */
 .section-title {
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 700;
   margin-bottom: 16px;
 }
@@ -157,52 +176,53 @@ body {
 
   <!-- SIDEBAR -->
   <div class="sidebar" id="sidebar">
-
     <div class="logo">Student Portal</div>
 
-    <a href="#" id="link-home" class="active" onclick="openPage('home')">Dashboard Home</a>
-    <a href="#" id="link-student" onclick="openPage('student')">Student Information</a>
-    <a href="#" id="link-hostel" onclick="openPage('hostel')">Hostel</a>
-    <a href="#" id="link-att" onclick="openPage('attendance')">Attendance</a>
-    <a href="#" id="link-results" onclick="openPage('results')">Results</a>
-    <a href="#" id="link-fees" onclick="openPage('fees')">Fees</a>
-
+    <a id="l-home" class="active" onclick="openPage('home')">Dashboard Home</a>
+    <a id="l-student" onclick="openPage('student')">Student Info</a>
+    <a id="l-hostel" onclick="openPage('hostel')">Hostel</a>
+    <a id="l-attendance" onclick="openPage('attendance')">Attendance</a>
+    <a id="l-results" onclick="openPage('results')">Results</a>
+    <a id="l-fees" onclick="openPage('fees')">Fees</a>
   </div>
 
-
-  <!-- CONTENT -->
+  <!-- CONTENT AREA -->
   <div class="content">
 
+    <!-- MOBILE NAV BUTTON -->
     <div class="toggle-btn" onclick="toggleSidebar()">
       <i class="bi bi-list"></i>
     </div>
 
-    <div class="topbar">Welcome, VALLURI SRI KRISHNA VARDAN</div>
+    <!-- TOPBAR -->
+    <div class="topbar">
+      Welcome, VALLURI SRI KRISHNA VARDAN
+    </div>
 
 
-    <!-- HOME PAGE -->
+    <!-- HOME -->
     <div id="home" class="page">
 
-      <div class="row">
+      <div class="row g-3">
 
-        <div class="col-md-4">
+        <div class="col-md-4 col-12">
           <div class="card-box">
-            <h5 class="fw-bold">Student Details</h5>
-            <div class="text-muted">View your personal & academic details</div>
+            <h5 class="fw-bold">Your Profile</h5>
+            <div class="text-muted">Basic student information</div>
           </div>
         </div>
 
-        <div class="col-md-4">
+        <div class="col-md-4 col-12">
           <div class="card-box">
             <h5 class="fw-bold">Attendance</h5>
-            <div class="text-muted">Track your subject-wise attendance</div>
+            <div class="text-muted">Track your performance</div>
           </div>
         </div>
 
-        <div class="col-md-4">
+        <div class="col-md-4 col-12">
           <div class="card-box">
-            <h5 class="fw-bold">Hostel Status</h5>
-            <div class="text-muted">Check your room and passes</div>
+            <h5 class="fw-bold">Hostel Details</h5>
+            <div class="text-muted">View your room info</div>
           </div>
         </div>
 
@@ -211,15 +231,14 @@ body {
     </div>
 
 
-
     <!-- STUDENT INFO -->
     <div id="student" class="page" style="display:none;">
 
       <div class="card-box">
 
-        <div class="profile-pic">
+        <div class="profile-pic mb-3">
           <img src="profile.jpg">
-          <h4 class="mt-3 fw-bold">VALLURI SRI KRISHNA VARDAN</h4>
+          <h5 class="fw-bold mt-3 mb-1">VALLURI SRI KRISHNA VARDAN</h5>
           <div class="text-muted">Roll No: 2403031260215 | CSE (3CYBER3)</div>
         </div>
 
@@ -235,7 +254,6 @@ body {
     </div>
 
 
-
     <!-- HOSTEL -->
     <div id="hostel" class="page" style="display:none;">
 
@@ -243,9 +261,9 @@ body {
         <div class="section-title">Hostel Details</div>
 
         <p><strong>Reg No:</strong> 42043</p>
-        <p><strong>Block:</strong> TAGORE BHAWAN - C (Non AC)</p>
+        <p><strong>Block:</strong> TAGORE BHAWAN - C</p>
         <p><strong>Room:</strong> Floor 3 | Room C-361 | Bed 3</p>
-        <p><strong>Duration:</strong> 01-07-2025 to 30-06-2026</p>
+        <p><strong>Duration:</strong> 01-07-2025 → 30-06-2026</p>
         <p><strong>City:</strong> East Godavari</p>
         <p><strong>Address:</strong> House No-1-18 Main Road, Nelaparthipadu</p>
       </div>
@@ -254,39 +272,38 @@ body {
         <div class="section-title">Recent Gate Passes</div>
 
         <div class="table-responsive">
-          <table class="table table-bordered">
-            <thead>
-              <tr><th>Sr</th><th>Reason</th><th>Place</th><th>From</th><th>To</th><th>Status</th></tr>
-            </thead>
+          <table class="table table-bordered text-center">
+            <thead><tr><th>Sr</th><th>Reason</th><th>Place</th><th>From</th><th>To</th><th>Status</th></tr></thead>
             <tbody>
               <tr><td>1</td><td>Holiday</td><td>HOME</td><td>17-10-2025</td><td>02-11-2025</td><td><span class="badge bg-success">Approved</span></td></tr>
             </tbody>
           </table>
         </div>
+
       </div>
 
     </div>
-
 
 
     <!-- ATTENDANCE -->
     <div id="attendance" class="page" style="display:none;">
 
       <div class="table-container">
+
         <div class="section-title">Attendance Overview</div>
 
-        <table class="table table-bordered">
-          <thead>
-            <tr><th>Sr</th><th>Subject</th><th>Slot</th><th>Conducted</th><th>Present</th><th>Absent</th><th>%</th></tr>
-          </thead>
-          <tbody>
-            <tr><td>1</td><td>Design of Data Structures</td><td>Theory</td><td>28</td><td>26</td><td>2</td><td>98%</td></tr>
-          </tbody>
-        </table>
+        <div class="table-responsive">
+          <table class="table table-bordered text-center">
+            <thead><tr><th>Sr</th><th>Subject</th><th>Slot</th><th>Conducted</th><th>Present</th><th>Absent</th><th>%</th></tr></thead>
+            <tbody>
+              <tr><td>1</td><td>DDS</td><td>Theory</td><td>28</td><td>26</td><td>2</td><td>98%</td></tr>
+            </tbody>
+          </table>
+        </div>
+
       </div>
 
     </div>
-
 
 
     <!-- RESULTS -->
@@ -301,7 +318,6 @@ body {
     </div>
 
 
-
     <!-- FEES -->
     <div id="fees" class="page" style="display:none;">
 
@@ -312,8 +328,8 @@ body {
 
     </div>
 
-  </div>
 
+  </div>
 </div>
 
 <script>
@@ -324,12 +340,14 @@ function toggleSidebar() {
 
 function openPage(page){
   let pages = ["home","student","hostel","attendance","results","fees"];
-  pages.forEach(p => {
-    document.getElementById(p).style.display = "none";
-    document.getElementById("link-"+p.replace('home','home')).classList.remove("active");
+
+  pages.forEach(p=>{
+    document.getElementById(p).style.display="none";
+    document.getElementById("l-"+p).classList.remove("active");
   });
-  document.getElementById(page).style.display = "block";
-  document.getElementById("link-"+page).classList.add("active");
+
+  document.getElementById(page).style.display="block";
+  document.getElementById("l-"+page).classList.add("active");
 }
 
 </script>
