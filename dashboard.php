@@ -9,7 +9,7 @@ if (!isset($_SESSION['student'])) {
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>World-Class Student Dashboard</title>
+<title>Student Dashboard</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -17,144 +17,76 @@ if (!isset($_SESSION['student'])) {
 
 <style>
 
-/* GLOBAL */
+/* ------- GLOBAL ------- */
 body {
   margin: 0;
-  padding: 0;
-  background: #eef1f5;
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-  overflow-x: hidden;
+  background: #f0f2f5;
   color: #1a1a1a;
+  overflow-x: hidden;
 }
 
-/* ANIMATIONS */
-@keyframes fadeUp {
+/* ------- ANIMATIONS ------- */
+@keyframes fade {
   from { opacity: 0; transform: translateY(15px); }
   to { opacity: 1; transform: translateY(0); }
 }
-@keyframes fadeSlide {
-  from { opacity:0; transform: translateX(-40px); }
-  to { opacity:1; transform: translateX(0); }
-}
-@keyframes cardFloat {
-  from { opacity:0; transform: translateY(20px); }
-  to { opacity:1; transform: translateY(0); }
+.page {
+  animation: fade 0.5s ease-out;
 }
 
-/* LAYOUT */
-.wrapper {
+/* ------- LAYOUT ------- */
+.layout {
   display: flex;
-  min-height: 100vh;
+  height: 100vh;
+  overflow: hidden;
 }
 
-/* SIDEBAR */
+/* ------- SIDEBAR ------- */
 .sidebar {
-  width: 260px;
-  background: rgba(13,110,253,0.95);
-  backdrop-filter: blur(12px);
-  color: white;
+  width: 230px;
+  background: #ffffff;
+  border-right: 1px solid #e0e3e7;
   padding-top: 25px;
-  box-shadow: 4px 0 18px rgba(0,0,0,0.15);
-  animation: fadeSlide 0.6s ease-out;
-  position: relative;
-  z-index: 20;
+  padding-bottom: 20px;
+  overflow-y: auto;
 }
-.sidebar h3 {
+.sidebar .logo {
   font-size: 22px;
   font-weight: 700;
-  padding-left: 20px;
+  padding: 0 22px;
   margin-bottom: 25px;
 }
 .sidebar a {
   display: block;
-  padding: 14px 26px;
-  margin-bottom: 4px;
+  padding: 12px 26px;
   font-size: 15px;
-  color: white;
   text-decoration: none;
+  color: #3b3b3b;
   border-left: 4px solid transparent;
-  transition: 0.25s;
-  font-weight: 500;
+  transition: 0.2s;
 }
 .sidebar a:hover,
 .sidebar a.active {
-  background: rgba(255,255,255,0.18);
-  border-left: 4px solid white;
-  padding-left: 32px;
-}
-
-/* CONTENT AREA */
-.content {
-  flex: 1;
-  padding: 30px;
-}
-
-/* TOPBAR */
-.topbar {
-  background: white;
-  padding: 16px 22px;
-  font-size: 20px;
+  background: #f4f6f8;
+  border-left: 4px solid #0d6efd;
   font-weight: 600;
-  border-radius: 12px;
-  margin-bottom: 24px;
-  box-shadow: 0 2px 14px rgba(0,0,0,0.07);
-  animation: fadeUp 0.6s ease-out;
 }
 
-/* CARDS */
-.card-box {
-  background: white;
-  padding: 22px;
-  border-radius: 14px;
-  margin-bottom: 28px;
-  box-shadow: 0 3px 14px rgba(0,0,0,0.08);
-  animation: cardFloat 0.6s ease-out;
-}
-
-/* PROFILE PHOTO */
-.profile-container {
-  text-align: center;
-  margin-bottom: 20px;
-}
-.profile-container img {
-  width: 150px;
-  border-radius: 14px;
-  border: 3px solid #ddd;
-}
-
-/* TITLES */
-.section-title {
-  font-size: 20px;
-  font-weight: 700;
-  margin-bottom: 16px;
-}
-
-/* TABLE */
-.table-custom {
-  background: white;
-  border-radius: 10px;
-}
-.table-custom th {
-  background: #f0f2f5;
-}
-.table-custom td, .table-custom th {
-  vertical-align: middle;
-}
-
-/* RESPONSIVE SIDEBAR */
+/* ------- MOBILE SIDEBAR ------- */
 .toggle-btn {
   display: none;
-  margin-bottom: 12px;
   font-size: 22px;
   cursor: pointer;
+  margin-bottom: 14px;
 }
-
-@media (max-width: 768px) {
+@media(max-width:768px){
   .sidebar {
     position: fixed;
-    left: -260px;
+    left: -230px;
     top: 0;
     height: 100%;
+    z-index: 200;
     transition: 0.3s;
   }
   .sidebar.open {
@@ -163,26 +95,80 @@ body {
   .toggle-btn {
     display: inline-block;
   }
-  .content {
-    padding: 18px;
-  }
 }
+
+/* ------- CONTENT AREA ------- */
+.content {
+  flex: 1;
+  padding: 25px;
+  overflow-y: auto;
+}
+.topbar {
+  background: white;
+  padding: 14px 20px;
+  border-radius: 12px;
+  font-size: 18px;
+  font-weight: 600;
+  box-shadow: 0 2px 14px rgba(0,0,0,0.06);
+  margin-bottom: 24px;
+}
+
+/* ------- CARDS ------- */
+.card-box {
+  background: white;
+  border-radius: 14px;
+  padding: 20px;
+  margin-bottom: 25px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.07);
+}
+
+/* ------- PROFILE ------- */
+.profile-pic {
+  text-align: center;
+  margin-bottom: 15px;
+}
+.profile-pic img {
+  width: 150px;
+  border-radius: 14px;
+  border: 3px solid #ddd;
+}
+
+/* ------- TABLES ------- */
+.table-container {
+  background: white;
+  padding: 20px;
+  border-radius: 14px;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.05);
+}
+
+/* ------- SECTION TITLE ------- */
+.section-title {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
 </style>
 </head>
 
 <body>
 
-<div class="wrapper">
+<div class="layout">
 
   <!-- SIDEBAR -->
   <div class="sidebar" id="sidebar">
-    <h3>Student Portal</h3>
-    <a href="#" id="t-student" class="active" onclick="openTab('student')">Student Info</a>
-    <a href="#" id="t-hostel" onclick="openTab('hostel')">Hostel</a>
-    <a href="#" id="t-attendance" onclick="openTab('attendance')">Attendance</a>
-    <a href="#" id="t-results" onclick="openTab('results')">Results</a>
-    <a href="#" id="t-fees" onclick="openTab('fees')">Fees</a>
+
+    <div class="logo">Student Portal</div>
+
+    <a href="#" id="link-home" class="active" onclick="openPage('home')">Dashboard Home</a>
+    <a href="#" id="link-student" onclick="openPage('student')">Student Information</a>
+    <a href="#" id="link-hostel" onclick="openPage('hostel')">Hostel</a>
+    <a href="#" id="link-att" onclick="openPage('attendance')">Attendance</a>
+    <a href="#" id="link-results" onclick="openPage('results')">Results</a>
+    <a href="#" id="link-fees" onclick="openPage('fees')">Fees</a>
+
   </div>
+
 
   <!-- CONTENT -->
   <div class="content">
@@ -191,18 +177,50 @@ body {
       <i class="bi bi-list"></i>
     </div>
 
-    <div class="topbar">
-      Welcome to your Student Dashboard
+    <div class="topbar">Welcome, VALLURI SRI KRISHNA VARDAN</div>
+
+
+    <!-- HOME PAGE -->
+    <div id="home" class="page">
+
+      <div class="row">
+
+        <div class="col-md-4">
+          <div class="card-box">
+            <h5 class="fw-bold">Student Details</h5>
+            <div class="text-muted">View your personal & academic details</div>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="card-box">
+            <h5 class="fw-bold">Attendance</h5>
+            <div class="text-muted">Track your subject-wise attendance</div>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="card-box">
+            <h5 class="fw-bold">Hostel Status</h5>
+            <div class="text-muted">Check your room and passes</div>
+          </div>
+        </div>
+
+      </div>
+
     </div>
 
+
+
     <!-- STUDENT INFO -->
-    <div id="student" class="tabPage">
+    <div id="student" class="page" style="display:none;">
+
       <div class="card-box">
 
-        <div class="profile-container">
+        <div class="profile-pic">
           <img src="profile.jpg">
-          <h4 class="mt-3 mb-1 fw-bold">VALLURI SRI KRISHNA VARDAN</h4>
-          <div class="text-muted">Roll: 2403031260215 | CSE (3CYBER3)</div>
+          <h4 class="mt-3 fw-bold">VALLURI SRI KRISHNA VARDAN</h4>
+          <div class="text-muted">Roll No: 2403031260215 | CSE (3CYBER3)</div>
         </div>
 
         <p><strong>Date of Birth:</strong> 28-11-2006</p>
@@ -213,10 +231,14 @@ body {
         <p><strong>Personal Email:</strong> krishnavardhan124@gmail.com</p>
 
       </div>
+
     </div>
 
+
+
     <!-- HOSTEL -->
-    <div id="hostel" class="tabPage" style="display:none;">
+    <div id="hostel" class="page" style="display:none;">
+
       <div class="card-box">
         <div class="section-title">Hostel Details</div>
 
@@ -225,80 +247,91 @@ body {
         <p><strong>Room:</strong> Floor 3 | Room C-361 | Bed 3</p>
         <p><strong>Duration:</strong> 01-07-2025 to 30-06-2026</p>
         <p><strong>City:</strong> East Godavari</p>
-        <p><strong>Address:</strong> HOUSE NO-1-18 MAIN ROAD, NELAPARTHIPADU, DRAKSHARAMAM</p>
+        <p><strong>Address:</strong> House No-1-18 Main Road, Nelaparthipadu</p>
       </div>
 
-      <div class="card-box">
+      <div class="table-container">
         <div class="section-title">Recent Gate Passes</div>
 
-        <div class="table-responsive table-custom">
+        <div class="table-responsive">
           <table class="table table-bordered">
             <thead>
               <tr><th>Sr</th><th>Reason</th><th>Place</th><th>From</th><th>To</th><th>Status</th></tr>
             </thead>
             <tbody>
-              <tr><td>1</td><td>Holiday</td><td>HOME</td><td>17-10-2025 05:00 PM</td><td>02-11-2025 06:00 PM</td><td><span class="badge bg-success">Approved</span></td></tr>
-              <tr><td>2</td><td>Personal Reason</td><td>PAVGADH</td><td>19-07-2025</td><td>19-07-2025</td><td><span class="badge bg-success">Approved</span></td></tr>
-              <tr><td>3</td><td>Personal Reason</td><td>VADODARA</td><td>05-07-2025</td><td>05-07-2025</td><td><span class="badge bg-success">Approved</span></td></tr>
+              <tr><td>1</td><td>Holiday</td><td>HOME</td><td>17-10-2025</td><td>02-11-2025</td><td><span class="badge bg-success">Approved</span></td></tr>
             </tbody>
           </table>
         </div>
       </div>
+
     </div>
+
+
 
     <!-- ATTENDANCE -->
-    <div id="attendance" class="tabPage" style="display:none;">
-      <div class="card-box">
+    <div id="attendance" class="page" style="display:none;">
+
+      <div class="table-container">
         <div class="section-title">Attendance Overview</div>
 
-        <div class="table-responsive table-custom">
-          <table class="table table-bordered">
-            <thead>
-              <tr><th>Sr</th><th>Subject</th><th>Slot</th><th>Conducted</th><th>Present</th><th>Absent</th><th>%</th></tr>
-            </thead>
-            <tbody>
-              <tr><td>1</td><td>Design of Data Structures</td><td>Theory</td><td>28</td><td>26</td><td>2</td><td>98%</td></tr>
-            </tbody>
-          </table>
-        </div>
+        <table class="table table-bordered">
+          <thead>
+            <tr><th>Sr</th><th>Subject</th><th>Slot</th><th>Conducted</th><th>Present</th><th>Absent</th><th>%</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>1</td><td>Design of Data Structures</td><td>Theory</td><td>28</td><td>26</td><td>2</td><td>98%</td></tr>
+          </tbody>
+        </table>
       </div>
+
     </div>
+
+
 
     <!-- RESULTS -->
-    <div id="results" class="tabPage" style="display:none;">
+    <div id="results" class="page" style="display:none;">
+
       <div class="card-box text-center">
-        <div class="section-title">2nd SEM Results</div>
-        <img src="SEMRESULTSPHOTO.jpg" class="result-img mb-3">
+        <div class="section-title">2nd SEM Result</div>
+        <img src="SEMRESULTSPHOTO.jpg" class="img-fluid rounded mb-3">
         <button class="btn btn-primary px-4">Download PDF</button>
       </div>
+
     </div>
 
+
+
     <!-- FEES -->
-    <div id="fees" class="tabPage" style="display:none;">
+    <div id="fees" class="page" style="display:none;">
+
       <div class="card-box">
-        <div class="section-title">Fees Status</div>
+        <div class="section-title">Fee Status</div>
         All tuition, hostel, and miscellaneous fees have been cleared for the academic year.
       </div>
+
     </div>
 
   </div>
+
 </div>
 
 <script>
+
 function toggleSidebar() {
   document.getElementById("sidebar").classList.toggle("open");
 }
 
-function openTab(tab) {
-  let tabs = document.getElementsByClassName("tabPage");
-  for (let t of tabs) t.style.display = "none";
-
-  let links = ["student","hostel","attendance","results","fees"];
-  for (let l of links) document.getElementById("t-"+l).classList.remove("active");
-
-  document.getElementById(tab).style.display = "block";
-  document.getElementById("t-"+tab).classList.add("active");
+function openPage(page){
+  let pages = ["home","student","hostel","attendance","results","fees"];
+  pages.forEach(p => {
+    document.getElementById(p).style.display = "none";
+    document.getElementById("link-"+p.replace('home','home')).classList.remove("active");
+  });
+  document.getElementById(page).style.display = "block";
+  document.getElementById("link-"+page).classList.add("active");
 }
+
 </script>
 
 </body>
