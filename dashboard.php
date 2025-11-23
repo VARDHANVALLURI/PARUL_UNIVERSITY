@@ -5,475 +5,409 @@ if (!isset($_SESSION['student'])) {
   exit;
 }
 ?>
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Student Dashboard</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Student Dashboard (Mobile-first)</title>
 
-<!-- Bootstrap -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Inter font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-<!-- Icons -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  <!-- Bootstrap (kept for utilities) -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
-<!-- Inter font -->
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <!-- icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 
-<style>
-/* --- Global --- */
-:root{
-  --sidebar-width: 250px;
-}
-html,body{height:100%;}
-body{
-  margin:0;
-  font-family:'Inter',system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial;
-  background:#f1f3f6;
-  color:#111827;
-  -webkit-font-smoothing:antialiased;
-  -moz-osx-font-smoothing:grayscale;
-  overflow-x:hidden;
-}
+  <style>
+    /* ---------- global, mobile-first ---------- */
+    *, *::before, *::after { box-sizing: border-box; }
+    html,body { height: 100%; margin: 0; padding: 0; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+    body {
+      font-family: 'Inter', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      color: #0f1724;
+      background: #f3f4f6;
+      overflow-x: hidden; /* prevent horizontal scroll */
+    }
 
-/* --- Layout --- */
-.layout{display:flex;min-height:100vh;}
+    /* use the uploaded college photo as background (mobile first) */
+    .app-background {
+      background-image: url('/mnt/data/e0739b2c-67d4-438c-a089-96b469d1c723.png');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      min-height: 100vh;
+    }
 
-/* --- Sidebar --- */
-.sidebar{
-  width:var(--sidebar-width);
-  background:#ffffff;
-  border-right:1px solid #e6e9ee;
-  padding:18px 12px;
-  box-sizing:border-box;
-  flex-shrink:0;
-  position:relative;
-  z-index:2200;
-  transition:transform .28s ease;
-}
-.sidebar .logo{font-size:20px;font-weight:700;padding:0 12px;margin-bottom:14px;}
-.sidebar .close-btn {
-  display:none; /* shown on mobile */
-  background:transparent;
-  border:0;
-  font-size:22px;
-  color:#374151;
-  padding:8px 12px;
-  cursor:pointer;
-}
+    /* translucent sheet over background for readability */
+    .app-background::before{
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: rgba(255,255,255,0.88);
+      z-index: 0;
+      pointer-events: none;
+    }
 
-/* sidebar links */
-.sidebar a {
-  display:block;
-  padding:10px 16px;
-  margin:6px 8px;
-  color:#1f2937;
-  text-decoration:none;
-  border-left:4px solid transparent;
-  border-radius:8px;
-  transition:all .18s ease;
-  font-weight:600;
-}
-.sidebar a:hover{background:#f3f6fb;}
-.sidebar a.active{background:#eef6ff;border-left-color:#0d6efd;color:#0b3a8c;}
+    /* container for content so it's above the overlay */
+    .app {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      padding: 14px;
+    }
 
-/* --- Content area --- */
-.content{
-  flex:1;
-  padding:22px;
-  position:relative;
-  overflow:auto;
-  min-height:100vh;
-  /* background image (dashboard only) */
-  background-image: url('college_photo.jpg'); /* replace file if needed */
-  background-size:cover;
-  background-position:center;
-  background-repeat:no-repeat;
-}
+    /* topbar */
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      background: rgba(255,255,255,0.96);
+      padding: 10px 12px;
+      border-radius: 12px;
+      box-shadow: 0 6px 18px rgba(15,23,42,0.06);
+    }
+    .topbar .title { font-weight: 700; font-size: 16px; }
+    .topbar .email { color: #6b7280; font-size: 13px; }
 
-/* translucent overlay over the background for readability */
-.content::before{
-  content:"";
-  position:fixed;
-  inset:0;
-  background:rgba(255,255,255,0.82);
-  z-index:1;
-  pointer-events:none;
-}
+    /* mobile toggle button */
+    .btn-toggle {
+      background: transparent;
+      border: 0;
+      font-size: 20px;
+      padding: 6px;
+      color: #0b3a8c;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
 
-/* inner content area sits above the translucent overlay */
-.content-inner{
-  position:relative;
-  z-index:2;
-}
+    /* layout: mobile-first single column */
+    .stack { display: block; gap: 12px; }
 
-/* --- Topbar --- */
-.topbar{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:12px;
-  background:rgba(255,255,255,0.9);
-  backdrop-filter:blur(6px);
-  padding:12px 16px;
-  border-radius:12px;
-  box-shadow:0 6px 18px rgba(15,23,42,0.06);
-  margin-bottom:20px;
-  z-index:3;
-}
+    /* cards */
+    .card-panel {
+      background: rgba(255,255,255,0.96);
+      padding: 12px;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(2,6,23,0.04);
+      margin-bottom: 12px;
+    }
 
-/* mobile toggle */
-.mobile-toggle{
-  display:none;
-  background:transparent;
-  border:0;
-  font-size:22px;
-  cursor:pointer;
-  color:#0b3a8c;
-}
+    .profile-row { display:flex; gap:12px; align-items:center; }
+    .profile-row img { width:84px; height:84px; object-fit:cover; border-radius:12px; border:2px solid #e6e9ee; }
 
-/* --- Cards, tables, typography --- */
-.card-box{
-  background:rgba(255,255,255,0.95);
-  border-radius:12px;
-  padding:18px;
-  box-shadow:0 6px 20px rgba(15,23,42,0.05);
-  margin-bottom:20px;
-}
-.section-title{font-size:18px;font-weight:700;margin-bottom:12px;}
-.profile-pic img{width:140px;border-radius:12px;border:3px solid #e6e9ee;}
-.table-container{background:rgba(255,255,255,0.96);padding:14px;border-radius:12px;box-shadow:0 6px 18px rgba(15,23,42,0.04);}
+    .section-title { font-weight:700; font-size:15px; margin-bottom:8px; }
 
-/* --- Sidebar behaviour on mobile --- */
-.sidebar.mobile-hidden{
-  transform:translateX(calc(-1 * var(--sidebar-width)));
-  position:fixed;
-  left:0;
-  top:0;
-  bottom:0;
-  height:100%;
-  box-shadow:8px 0 30px rgba(2,6,23,0.12);
-}
-.sidebar.mobile-visible{
-  transform:translateX(0);
-}
+    /* responsive table wrapper (prevents horizontal page scroll) */
+    .table-scroll { width:100%; overflow:auto; -webkit-overflow-scrolling: touch; border-radius:10px; }
 
-/* overlay (shown when sidebar open on mobile) */
-#sidebarOverlay{
-  display:none;
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,0.35);
-  z-index:2100;
-}
+    .table-simple { min-width:700px; } /* table inner min width so it scrolls horizontally within wrapper */
 
-/* show overlay */
-#sidebarOverlay.visible{display:block;}
+    /* sidebar (overlay style on mobile) */
+    :root { --sidebar-width: 300px; }
+    .sidebar {
+      position: fixed;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: var(--sidebar-width);
+      max-width: 86%;
+      transform: translateX(-110%);
+      transition: transform .26s cubic-bezier(.2,.9,.2,1);
+      background: #ffffff;
+      z-index: 2200;
+      padding: 12px;
+      box-shadow: 8px 0 30px rgba(2,6,23,0.12);
+      overflow-y: auto;
+    }
+    .sidebar.open { transform: translateX(0); }
+    .sidebar .close-inline {
+      display:flex; justify-content:flex-end;
+    }
+    .sidebar .close-inline button {
+      border: 0; background: transparent; font-size:20px; cursor:pointer;
+    }
+    .sidebar .nav-link {
+      display:block; padding:12px 10px; margin:8px 4px; border-radius:10px; color:#111827; text-decoration:none; font-weight:600;
+    }
+    .sidebar .nav-link.active, .sidebar .nav-link:hover { background:#f1f5f9; color:#0b3a8c; }
 
-/* show close button inside sidebar on mobile */
-@media (max-width: 768px){
-  .mobile-toggle{display:inline-block;}
-  .sidebar .close-btn{display:block;margin-bottom:6px;}
-  .sidebar{padding-top:22px;padding-left:10px;padding-right:10px;}
-  .content{
-    padding:16px;
-    background-attachment:scroll;
-  }
-  .content::before{background:rgba(255,255,255,0.92);}
-}
+    /* overlay behind sidebar */
+    .overlay {
+      position: fixed; inset: 0; z-index: 2100; background: rgba(0,0,0,0.35); display:none;
+    }
+    .overlay.visible { display:block; }
 
-/* responsive grid helpers */
-.row-gap{gap:18px;display:flex;flex-wrap:wrap;}
-.col-card{flex:1 1 320px;min-width:240px;max-width:100%;}
-</style>
+    /* footer / logout in sidebar */
+    .sidebar-footer { margin-top:18px; padding:10px; border-top:1px solid #eef2f7; }
+
+    /* ===== desktop adjustments (wider screens) ===== */
+    @media(min-width: 769px) {
+      .sidebar { position: relative; transform: translateX(0); width:220px; max-width:220px; box-shadow:none; }
+      .overlay { display:none !important; }
+      .app { margin-left: 220px; padding:28px; }
+      .topbar { padding:14px 18px; }
+      .card-panel { padding:18px; }
+      .stack-row { display:flex; gap:16px; }
+      .stack-row .col { flex:1; }
+      .table-simple { min-width:unset; }
+    }
+  </style>
 </head>
 <body>
-<div class="layout">
 
-  <!-- SIDEBAR -->
-  <nav id="sidebar" class="sidebar mobile-hidden" aria-label="Main navigation">
-    <!-- close button (visible on mobile) -->
-    <div style="display:flex;align-items:center;justify-content:space-between;padding:0 6px 8px 6px;">
-      <div class="logo">Student Portal</div>
-      <button class="close-btn" id="closeSidebarBtn" aria-label="Close sidebar"><i class="bi bi-x-lg"></i></button>
-    </div>
+  <div class="app-background">
+    <div class="app">
 
-    <a href="#" id="link-home" class="active" data-target="home">Dashboard Home</a>
-    <a href="#" id="link-student" data-target="student">Student Info</a>
-    <a href="#" id="link-hostel" data-target="hostel">Hostel</a>
-    <a href="#" id="link-attendance" data-target="attendance">Attendance</a>
-    <a href="#" id="link-results" data-target="results">Results</a>
-    <a href="#" id="link-fees" data-target="fees">Fees</a>
-  </nav>
-
-  <!-- overlay used to close the sidebar on mobile -->
-  <div id="sidebarOverlay" role="button" aria-label="Close sidebar overlay"></div>
-
-  <!-- CONTENT -->
-  <main class="content">
-    <div class="content-inner">
-
-      <!-- topbar with mobile toggle -->
-      <div class="topbar">
-        <div style="display:flex;align-items:center;gap:12px;">
-          <button class="mobile-toggle" id="openSidebarBtn" aria-label="Open sidebar"><i class="bi bi-list"></i></button>
-          <div style="font-weight:700;font-size:18px;">Welcome, VALLURI SRI KRISHNA VARDAN</div>
+      <!-- SIDEBAR (overlay on mobile, static on desktop) -->
+      <nav id="appSidebar" class="sidebar" aria-label="Main navigation">
+        <div class="close-inline">
+          <button id="closeSidebarBtn" aria-label="Close sidebar"><i class="bi bi-x-lg"></i></button>
         </div>
-        <div style="display:flex;align-items:center;gap:12px;">
-          <div style="color:#6b7280;font-size:14px;">2403031260215@paruluniversity.ac.in</div>
-          <a href="logout.php" class="btn btn-outline-secondary btn-sm">Logout</a>
-        </div>
-      </div>
 
-      <!-- HOME -->
-      <section id="home" class="page">
-        <div class="row-gap">
-          <div class="col-card card-box">
-            <div style="display:flex;align-items:center;gap:14px;">
-              <div style="flex:1">
-                <div class="section-title">Profile</div>
-                <div class="text-muted">Basic information</div>
-                <div style="margin-top:10px;">
-                  <strong>VALLURI SRI KRISHNA VARDAN</strong><br>
-                  Roll: 2403031260215 | CSE (3CYBER3)
-                </div>
-              </div>
-              <div style="width:120px;text-align:center;">
-                <img src="profile.jpg" alt="Profile" style="width:100px;border-radius:10px;border:2px solid #eef2f6;">
-              </div>
-            </div>
-          </div>
+        <div style="padding:6px 6px 12px 6px;">
+          <div style="font-weight:700;font-size:18px;padding:6px 4px;">Student Portal</div>
+          <hr style="border:none;border-top:1px solid #eef2f7;margin:8px 0;">
+          <a href="#" class="nav-link active" data-target="home" id="link-home">Dashboard Home</a>
+          <a href="#" class="nav-link" data-target="student" id="link-student">Student Info</a>
+          <a href="#" class="nav-link" data-target="hostel" id="link-hostel">Hostel</a>
+          <a href="#" class="nav-link" data-target="attendance" id="link-attendance">Attendance</a>
+          <a href="#" class="nav-link" data-target="results" id="link-results">Results</a>
+          <a href="#" class="nav-link" data-target="fees" id="link-fees">Fees</a>
 
-          <div class="col-card card-box">
-            <div class="section-title">Attendance Snapshot</div>
-            <div class="text-muted">Overall percentage (quick view)</div>
-            <div style="margin-top:12px;">
-              <div class="progress" style="height:14px;">
-                <div class="progress-bar" role="progressbar" style="width: 94%;" aria-valuenow="94" aria-valuemin="0" aria-valuemax="100">94%</div>
-              </div>
-              <small class="text-muted">Improved from last month</small>
-            </div>
-          </div>
-
-          <div class="col-card card-box">
-            <div class="section-title">Hostel</div>
-            <div class="text-muted">Room & pass status</div>
+          <div class="sidebar-footer">
+            <div style="font-size:13px;color:#6b7280;">Logged in as</div>
+            <div style="font-weight:600;margin-top:6px;font-size:14px;">2403031260215@paruluniversity.ac.in</div>
             <div style="margin-top:10px;">
-              <strong>TAGORE BHAWAN - C</strong><br>
-              Room: Floor 3 | C-361 | Bed 3
+              <a href="logout.php" class="btn btn-outline-secondary btn-sm w-100">Logout</a>
             </div>
           </div>
         </div>
-      </section>
+      </nav>
 
-      <!-- STUDENT -->
-      <section id="student" class="page" style="display:none;">
-        <div class="card-box">
-          <div class="section-title">Student Information</div>
-          <div class="profile-pic text-center mb-3">
-            <img src="profile.jpg" alt="Student">
-            <div style="margin-top:10px;font-weight:700;">VALLURI SRI KRISHNA VARDAN</div>
-            <div class="text-muted">Roll No: 2403031260215 | CSE (3CYBER3)</div>
-          </div>
+      <!-- overlay for mobile -->
+      <div id="sidebarOverlay" class="overlay" tabindex="-1" aria-hidden="true"></div>
 
-          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;">
-            <div class="card-box" style="padding:12px;">
-              <div class="text-muted">DOB</div>
-              <div style="font-weight:600;margin-top:6px;">28-11-2006</div>
+      <!-- MAIN CONTENT -->
+      <header class="topbar" role="banner">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <button id="openSidebarBtn" class="btn-toggle" aria-label="Open menu"><i class="bi bi-list"></i></button>
+          <div class="title">Welcome, VALLURI SRI KRISHNA VARDAN</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;">
+          <div class="email">2403031260215@paruluniversity.ac.in</div>
+        </div>
+      </header>
+
+      <main>
+
+        <!-- HOME (default) -->
+        <section id="home" class="stack page" aria-labelledby="homeTitle">
+          <div class="card-panel" role="region" aria-labelledby="homeTitle">
+            <div id="homeTitle" class="section-title">Profile & Snapshot</div>
+            <div style="display:flex;align-items:center;gap:12px;">
+              <div style="flex:1;">
+                <div style="font-weight:700;">VALLURI SRI KRISHNA VARDAN</div>
+                <div style="color:#6b7280;font-size:13px;margin-top:4px;">Roll No: 2403031260215 | CSE (3CYBER3)</div>
+                <div style="margin-top:10px;color:#111827;font-weight:600;">Attendance: 94%</div>
+                <div style="margin-top:6px;color:#6b7280;font-size:13px;">Hostel: TAGORE BHAWAN - C (C-361)</div>
+              </div>
+              <div>
+                <img src="profile.jpg" alt="profile" style="width:86px;height:86px;border-radius:12px;border:2px solid #e6e9ee;object-fit:cover;">
+              </div>
             </div>
-            <div class="card-box" style="padding:12px;">
-              <div class="text-muted">Student Phone</div>
-              <div style="font-weight:600;margin-top:6px;">6281048554</div>
-            </div>
-            <div class="card-box" style="padding:12px;">
-              <div class="text-muted">College Email</div>
-              <div style="font-weight:600;margin-top:6px;">2403031260215@paruluniversity.ac.in</div>
-            </div>
-            <div class="card-box" style="padding:12px;">
-              <div class="text-muted">Personal Email</div>
-              <div style="font-weight:600;margin-top:6px;">krishnavardhan124@gmail.com</div>
+          </div>
+
+          <div class="card-panel">
+            <div class="section-title">Quick Actions</div>
+            <div style="display:flex;gap:10px;flex-wrap:wrap;">
+              <button class="btn btn-primary btn-sm">View Results</button>
+              <button class="btn btn-outline-primary btn-sm">Download Fee Receipt</button>
+              <button class="btn btn-outline-secondary btn-sm">Apply Gate Pass</button>
             </div>
           </div>
+        </section>
 
-          <div style="margin-top:12px;">
-            <div class="section-title">Parents / Guardian</div>
-            <p><strong>Father:</strong> VALLURI VENKATA KRISHNANANDA CHOWDARY | 9951996671</p>
-            <p><strong>Mother:</strong> VALLURI VISALAKSHI | 6301244329</p>
+        <!-- STUDENT -->
+        <section id="student" class="page" style="display:none;">
+          <div class="card-panel">
+            <div class="section-title">Student Information</div>
+
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+              <div style="background:transparent;">
+                <div style="color:#6b7280;font-size:13px;">DOB</div>
+                <div style="font-weight:600;">28-11-2006</div>
+              </div>
+              <div>
+                <div style="color:#6b7280;font-size:13px;">Student Phone</div>
+                <div style="font-weight:600;">6281048554</div>
+              </div>
+              <div>
+                <div style="color:#6b7280;font-size:13px;">College Email</div>
+                <div style="font-weight:600;">2403031260215@paruluniversity.ac.in</div>
+              </div>
+              <div>
+                <div style="color:#6b7280;font-size:13px;">Personal Email</div>
+                <div style="font-weight:600;">krishnavardhan124@gmail.com</div>
+              </div>
+            </div>
+
+            <div style="margin-top:12px;">
+              <div style="font-weight:700;margin-bottom:6px;">Parents / Guardian</div>
+              <div><strong>Father:</strong> VALLURI VENKATA KRISHNANANDA CHOWDARY | 9951996671</div>
+              <div><strong>Mother:</strong> VALLURI VISALAKSHI | 6301244329</div>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <!-- HOSTEL -->
-      <section id="hostel" class="page" style="display:none;">
-        <div class="card-box">
-          <div class="section-title">Hostel Details</div>
-          <p><strong>Reg No:</strong> 42043</p>
-          <p><strong>Block:</strong> TAGORE BHAWAN - C (Non AC)</p>
-          <p><strong>Room:</strong> Floor 3 | Room C-361 | Bed 3</p>
-          <p><strong>Duration:</strong> 01-07-2025 → 30-06-2026</p>
-          <p><strong>City:</strong> EAST GODAVARI</p>
-          <p><strong>Address:</strong> HOUSE NO-1-18 MAIN ROAD, NELAPARTHIPADU, DRAKSHARAMAM</p>
-        </div>
-
-        <div class="table-container">
-          <div class="section-title">Recent Gate Passes</div>
-          <div class="table-responsive">
-            <table class="table table-bordered text-center">
-              <thead><tr><th>Sr</th><th>Reason</th><th>Place</th><th>From</th><th>To</th><th>Status</th></tr></thead>
-              <tbody>
-                <tr><td>1</td><td>Holiday</td><td>HOME</td><td>17-10-2025 05:00 PM</td><td>02-11-2025 06:00 PM</td><td><span class="badge bg-success">Approved</span></td></tr>
-                <tr><td>2</td><td>Personal Reason</td><td>PAVGADH</td><td>19-07-2025</td><td>19-07-2025</td><td><span class="badge bg-success">Approved</span></td></tr>
-              </tbody>
-            </table>
+        <!-- HOSTEL -->
+        <section id="hostel" class="page" style="display:none;">
+          <div class="card-panel">
+            <div class="section-title">Hostel Details</div>
+            <div><strong>Reg No:</strong> 42043</div>
+            <div><strong>Block:</strong> TAGORE BHAWAN - C (Non AC)</div>
+            <div><strong>Room:</strong> Floor 3 | Room C-361 | Bed 3</div>
+            <div><strong>Duration:</strong> 01-07-2025 → 30-06-2026</div>
+            <div><strong>City:</strong> EAST GODAVARI</div>
+            <div><strong>Address:</strong> HOUSE NO-1-18 MAIN ROAD, NELAPARTHIPADU, DRAKSHARAMAM</div>
           </div>
-        </div>
-      </section>
 
-      <!-- ATTENDANCE -->
-      <section id="attendance" class="page" style="display:none;">
-        <div class="table-container">
-          <div class="section-title">Attendance Overview</div>
-          <div class="table-responsive">
-            <table class="table table-bordered text-center">
-              <thead><tr><th>Sr</th><th>Subject</th><th>Slot</th><th>Conducted</th><th>Present</th><th>Absent</th><th>%</th></tr></thead>
-              <tbody>
-                <tr><td>1</td><td>Design of Data Structures</td><td>Theory</td><td>28</td><td>26</td><td>2</td><td>98%</td></tr>
-                <tr><td>2</td><td>DDS Lab</td><td>Practical</td><td>20</td><td>19</td><td>0</td><td>99%</td></tr>
-              </tbody>
-            </table>
+          <div class="table-container">
+            <div class="section-title">Recent Gate Passes</div>
+            <div class="table-scroll" role="region" aria-label="Gate passes table">
+              <table class="table table-bordered table-simple">
+                <thead><tr><th>Sr</th><th>Reason</th><th>Place</th><th>From</th><th>To</th><th>Status</th></tr></thead>
+                <tbody>
+                  <tr><td>1</td><td>Holiday</td><td>HOME</td><td>17-10-2025 05:00 PM</td><td>02-11-2025 06:00 PM</td><td><span class="badge bg-success">Approved</span></td></tr>
+                  <tr><td>2</td><td>Personal Reason</td><td>PAVGADH</td><td>19-07-2025</td><td>19-07-2025</td><td><span class="badge bg-success">Approved</span></td></tr>
+                </tbody>
+              </table>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <!-- RESULTS -->
-      <section id="results" class="page" style="display:none;">
-        <div class="card-box text-center">
-          <div class="section-title">2nd SEM Result</div>
-          <img src="SEMRESULTSPHOTO.jpg" alt="Results" class="img-fluid rounded mb-3" style="max-width:680px;">
-          <div><button class="btn btn-primary" onclick="downloadResultsPDF()">Download PDF</button></div>
-        </div>
-      </section>
+        <!-- ATTENDANCE -->
+        <section id="attendance" class="page" style="display:none;">
+          <div class="table-container">
+            <div class="section-title">Attendance Overview</div>
+            <div class="table-scroll" role="region" aria-label="Attendance table">
+              <table class="table table-bordered table-simple text-center">
+                <thead><tr><th>Sr</th><th>Subject</th><th>Slot</th><th>Conducted</th><th>Present</th><th>Absent</th><th>%</th></tr></thead>
+                <tbody>
+                  <tr><td>1</td><td>Design of Data Structures</td><td>Theory</td><td>28</td><td>26</td><td>2</td><td>98%</td></tr>
+                  <tr><td>2</td><td>DDS Lab</td><td>Practical</td><td>20</td><td>19</td><td>0</td><td>99%</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
 
-      <!-- FEES -->
-      <section id="fees" class="page" style="display:none;">
-        <div class="card-box">
-          <div class="section-title">Fee Status</div>
-          <div class="alert alert-success mb-0">All tuition, hostel, and miscellaneous fees have been cleared for the academic year.</div>
-        </div>
-      </section>
+        <!-- RESULTS -->
+        <section id="results" class="page" style="display:none;">
+          <div class="card-panel text-center">
+            <div class="section-title">2nd SEM Result</div>
+            <img src="SEMRESULTSPHOTO.jpg" alt="result" style="max-width:100%;height:auto;border-radius:10px;border:1px solid #e6e9ee;">
+            <div style="margin-top:10px;"><button class="btn btn-primary btn-sm" onclick="downloadResultsPDF()">Download PDF</button></div>
+          </div>
+        </section>
 
-    </div><!-- /.content-inner -->
-  </main>
-</div>
+        <!-- FEES -->
+        <section id="fees" class="page" style="display:none;">
+          <div class="card-panel">
+            <div class="section-title">Fee Status</div>
+            <div class="alert alert-success mb-0">All tuition, hostel, and miscellaneous fees have been cleared for the academic year.</div>
+          </div>
+        </section>
 
-<!-- scripts -->
+      </main>
+    </div>
+  </div>
+
 <script>
-/* elements */
-const sidebar = document.getElementById('sidebar');
-const openBtn = document.getElementById('openSidebarBtn');
-const closeBtn = document.getElementById('closeSidebarBtn');
-const overlay = document.getElementById('sidebarOverlay');
+  /* Elements (null-safe) */
+  const sidebar = document.getElementById('appSidebar');
+  const openSidebarBtn = document.getElementById('openSidebarBtn');
+  const closeSidebarBtn = document.getElementById('closeSidebarBtn');
+  const overlay = document.getElementById('sidebarOverlay');
+  const sidebarLinks = sidebar ? sidebar.querySelectorAll('a[data-target]') : [];
 
-let sidebarLinks;
+  function isMobile(){ return window.innerWidth <= 768; }
 
-/* load sidebar links safely AFTER page is fully loaded */
-document.addEventListener("DOMContentLoaded", () => {
-  sidebarLinks = document.querySelectorAll('#sidebar a[data-target]');
-  sidebarLinks.forEach(link => {
-    link.addEventListener('click', function(e){
-      e.preventDefault();
-      const target = this.getAttribute('data-target');
-      openPage(target);
+  function openSidebar(){
+    if(!sidebar) return;
+    sidebar.classList.add('open');
+    if(overlay) overlay.classList.add('visible');
+    // prevent body scroll when sidebar open on mobile
+    if(isMobile()) document.body.style.overflow = 'hidden';
+  }
 
-      // close sidebar on mobile after clicking link
-      if (window.innerWidth <= 768) {
-        closeSidebar();
+  function closeSidebar(){
+    if(!sidebar) return;
+    sidebar.classList.remove('open');
+    if(overlay) overlay.classList.remove('visible');
+    document.body.style.overflow = '';
+  }
+
+  function toggleSidebar(){
+    if(!sidebar) return;
+    if(sidebar.classList.contains('open')) closeSidebar(); else openSidebar();
+  }
+
+  function openPage(pageId){
+    const pages = ['home','student','hostel','attendance','results','fees'];
+    pages.forEach(p=>{
+      const el = document.getElementById(p);
+      if(el) el.style.display = (p === pageId) ? 'block' : 'none';
+      const link = document.getElementById('link-'+p);
+      if(link) {
+        if(p === pageId) link.classList.add('active'); else link.classList.remove('active');
       }
     });
-  });
-});
-
-/* helpers */
-function isMobile(){
-  return window.innerWidth <= 768;
-}
-
-/* open sidebar (mobile) */
-function openSidebar(){
-  sidebar.classList.add('mobile-visible');
-  sidebar.classList.remove('mobile-hidden');
-  overlay.classList.add('visible');
-}
-
-/* close sidebar (mobile) */
-function closeSidebar(){
-  sidebar.classList.remove('mobile-visible');
-  sidebar.classList.add('mobile-hidden');
-  overlay.classList.remove('visible');
-}
-
-/* toggle */
-function toggleSidebar(){
-  if(sidebar.classList.contains('mobile-visible')){
-    closeSidebar();
-  } else {
-    openSidebar();
+    // close sidebar on mobile after selecting
+    if(isMobile()) closeSidebar();
+    // ensure top of content visible (helpful on small screens)
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
-}
 
-/* open page and close sidebar on mobile */
-function openPage(pageId){
-  const pages = ['home','student','hostel','attendance','results','fees'];
-  pages.forEach(p=>{
-    const el = document.getElementById(p);
-    if(el) el.style.display = (p === pageId) ? 'block' : 'none';
-    const link = document.getElementById('link-'+p);
-    if(link) {
-      if(p === pageId) link.classList.add('active'); else link.classList.remove('active');
+  /* attach events safely */
+  if(openSidebarBtn) openSidebarBtn.addEventListener('click', openSidebar);
+  if(closeSidebarBtn) closeSidebarBtn.addEventListener('click', closeSidebar);
+  if(overlay) overlay.addEventListener('click', closeSidebar);
+  sidebarLinks.forEach(link=>{
+    link.addEventListener('click', function(e){
+      e.preventDefault();
+      const t = this.getAttribute('data-target');
+      if(t) openPage(t);
+    });
+  });
+
+  /* handle resize: ensure sidebar/overlay states are correct when switching between mobile/desktop */
+  window.addEventListener('resize', function(){
+    if(!isMobile()){
+      // desktop: always show sidebar (no overlay)
+      if(sidebar) sidebar.classList.remove('open');
+      if(overlay) overlay.classList.remove('visible');
+      document.body.style.overflow = '';
+    } else {
+      // mobile default: hide sidebar (unless opened by user)
+      if(sidebar && !sidebar.classList.contains('open')) {
+        sidebar.classList.remove('open');
+        if(overlay) overlay.classList.remove('visible');
+      }
     }
   });
-  // if mobile, close sidebar automatically so user sees content
-  if(isMobile()) closeSidebar();
-}
 
-/* click handlers */
-if(openBtn) openBtn.addEventListener('click', openSidebar);
-if(closeBtn) closeBtn.addEventListener('click', closeSidebar);
-if(overlay) overlay.addEventListener('click', closeSidebar);
+  // initialise
+  openPage('home');
 
-/* sidebar links behaviour */
-sidebarLinks.forEach(link=>{
-  link.addEventListener('click', function(e){
-    e.preventDefault();
-    const t = this.getAttribute('data-target');
-    if(t) openPage(t);
-  });
-});
-
-/* on resize, ensure sidebar state is correct */
-window.addEventListener('resize', function(){
-  if(!isMobile()){
-    // desktop: ensure sidebar visible and overlay hidden
-    sidebar.classList.remove('mobile-hidden');
-    sidebar.classList.remove('mobile-visible');
-    overlay.classList.remove('visible');
-  } else {
-    // mobile default: hide sidebar (unless it was explicitly opened)
-    if(!sidebar.classList.contains('mobile-visible')){
-      sidebar.classList.add('mobile-hidden');
-    }
+  /* placeholder for PDF download - implement as needed */
+  function downloadResultsPDF(){
+    alert('Download PDF not implemented in this template. Integrate html2canvas + jsPDF or server-side export.');
   }
-});
-
-/* initialize: show home */
-openPage('home');
-
-/* Download results stub (user can replace with actual implementation) */
-function downloadResultsPDF(){
-  // placeholder: you can integrate html2canvas + jspdf or server side PDF
-  alert("Download PDF - implement export (html2canvas + jsPDF) if needed)");
-}
 </script>
 
 </body>
