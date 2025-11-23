@@ -374,10 +374,28 @@ const sidebar = document.getElementById('sidebar');
 const openBtn = document.getElementById('openSidebarBtn');
 const closeBtn = document.getElementById('closeSidebarBtn');
 const overlay = document.getElementById('sidebarOverlay');
-const sidebarLinks = sidebar.querySelectorAll('a[data-target]');
+
+let sidebarLinks;
+
+/* load sidebar links safely AFTER page is fully loaded */
+document.addEventListener("DOMContentLoaded", () => {
+  sidebarLinks = document.querySelectorAll('#sidebar a[data-target]');
+  sidebarLinks.forEach(link => {
+    link.addEventListener('click', function(e){
+      e.preventDefault();
+      const target = this.getAttribute('data-target');
+      openPage(target);
+
+      // close sidebar on mobile after clicking link
+      if (window.innerWidth <= 768) {
+        closeSidebar();
+      }
+    });
+  });
+});
 
 /* helpers */
-function isMobile() {
+function isMobile(){
   return window.innerWidth <= 768;
 }
 
