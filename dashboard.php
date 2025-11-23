@@ -12,8 +12,14 @@ if (!isset($_SESSION['student'])) {
 <title>Student Dashboard</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
+<!-- Bootstrap -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Icons -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+<!-- PREMIUM FONT (INTER) -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
 
@@ -21,9 +27,28 @@ if (!isset($_SESSION['student'])) {
 body {
   margin: 0;
   background: #f1f3f6;
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-family: 'Inter', sans-serif;
   color: #1a1a1a;
   overflow-x: hidden;
+}
+
+/* DASHBOARD BACKGROUND IMAGE */
+.content {
+  background-image: url('college_photo.jpg'); /* <- Put your college photo file name here */
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  backdrop-filter: blur(0px);
+}
+
+/* Transparent overlay for readability */
+.content::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: rgba(255,255,255,0.75);
+  z-index: -1;
 }
 
 /* ANIMATIONS */
@@ -31,11 +56,9 @@ body {
   from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
 }
-.page {
-  animation: fade 0.4s ease-out;
-}
+.page { animation: fade 0.4s ease-out; }
 
-/* LAYOUT CONTAINER */
+/* LAYOUT */
 .layout {
   display: flex;
   height: 100vh;
@@ -51,6 +74,7 @@ body {
   padding-bottom: 25px;
   flex-shrink: 0;
   overflow-y: auto;
+  z-index: 500;
 }
 .sidebar .logo {
   font-size: 22px;
@@ -58,6 +82,15 @@ body {
   padding: 0 25px;
   margin-bottom: 30px;
 }
+
+/* MOBILE CLOSE BUTTON INSIDE SIDEBAR */
+.sidebar .close-sidebar {
+  display: none;
+  font-size: 26px;
+  padding: 10px 25px;
+  cursor: pointer;
+}
+
 .sidebar a {
   display: block;
   padding: 12px 28px;
@@ -66,20 +99,20 @@ body {
   color: #3c3c3c;
   border-left: 4px solid transparent;
   transition: 0.25s;
+  font-weight: 500;
 }
 .sidebar a:hover,
 .sidebar a.active {
   background: #eef1f5;
   border-left: 4px solid #0d6efd;
-  font-weight: 600;
 }
 
-/* MOBILE SIDEBAR */
+/* MOBILE SIDEBAR BEHAVIOR */
 .toggle-btn {
   display: none;
   font-size: 24px;
   cursor: pointer;
-  margin-bottom: 14px;
+  margin-bottom: 16px;
 }
 
 @media(max-width:768px){
@@ -89,11 +122,13 @@ body {
     top: 0;
     bottom: 0;
     height: 100%;
-    z-index: 200;
     transition: 0.3s ease;
   }
   .sidebar.open {
     left: 0;
+  }
+  .close-sidebar {
+    display: block;
   }
   .toggle-btn {
     display: inline-block;
@@ -113,54 +148,49 @@ body {
   flex: 1;
   padding: 28px;
   overflow-y: auto;
+  position: relative;
+  z-index: 1;
 }
 
 /* TOPBAR */
 .topbar {
-  background: white;
+  background: rgba(255,255,255,0.85);
+  backdrop-filter: blur(4px);
   padding: 16px 22px;
   border-radius: 12px;
   font-size: 18px;
   font-weight: 600;
   margin-bottom: 24px;
-  box-shadow: 0 2px 14px rgba(0,0,0,0.06);
+  box-shadow: 0 2px 14px rgba(0,0,0,0.08);
 }
 
-/* CARD BOX */
+/* CARDS */
 .card-box {
-  background: white;
+  background: rgba(255,255,255,0.89);
+  backdrop-filter: blur(6px);
   border-radius: 14px;
-  padding: 20px;
+  padding: 22px;
   margin-bottom: 24px;
-  box-shadow: 0 3px 12px rgba(0,0,0,0.07);
+  box-shadow: 0 3px 12px rgba(0,0,0,0.1);
 }
 
 /* PROFILE */
-.profile-pic {
-  text-align: center;
-}
 .profile-pic img {
   width: 150px;
   border-radius: 14px;
-  border: 3px solid #dcdcdc;
+  border: 3px solid #d0d0d0;
 }
 
-/* TABLE CONTAINER */
 .table-container {
-  background: white;
+  background: rgba(255,255,255,0.9);
   padding: 20px;
   border-radius: 14px;
-  box-shadow: 0 3px 12px rgba(0,0,0,0.05);
+  box-shadow: 0 3px 12px rgba(0,0,0,0.1);
   margin-bottom: 24px;
 }
-.table-container table {
-  width: 100%;
-}
-.table-container th {
-  background: #f5f6f9;
-}
 
-/* TITLE */
+.table-container th { background: #f4f6f8; font-weight: 600; }
+
 .section-title {
   font-size: 18px;
   font-weight: 700;
@@ -176,6 +206,12 @@ body {
 
   <!-- SIDEBAR -->
   <div class="sidebar" id="sidebar">
+
+    <!-- Close button for mobile -->
+    <div class="close-sidebar" onclick="toggleSidebar()">
+      <i class="bi bi-x-lg"></i>
+    </div>
+
     <div class="logo">Student Portal</div>
 
     <a id="l-home" class="active" onclick="openPage('home')">Dashboard Home</a>
@@ -184,50 +220,43 @@ body {
     <a id="l-attendance" onclick="openPage('attendance')">Attendance</a>
     <a id="l-results" onclick="openPage('results')">Results</a>
     <a id="l-fees" onclick="openPage('fees')">Fees</a>
+
   </div>
 
-  <!-- CONTENT AREA -->
+  <!-- CONTENT -->
   <div class="content">
 
-    <!-- MOBILE NAV BUTTON -->
     <div class="toggle-btn" onclick="toggleSidebar()">
       <i class="bi bi-list"></i>
     </div>
 
-    <!-- TOPBAR -->
-    <div class="topbar">
-      Welcome, VALLURI SRI KRISHNA VARDAN
-    </div>
+    <div class="topbar">Welcome, VALLURI SRI KRISHNA VARDAN</div>
 
 
     <!-- HOME -->
     <div id="home" class="page">
-
       <div class="row g-3">
-
         <div class="col-md-4 col-12">
           <div class="card-box">
             <h5 class="fw-bold">Your Profile</h5>
-            <div class="text-muted">Basic student information</div>
+            <div class="text-muted">View personal details</div>
           </div>
         </div>
 
         <div class="col-md-4 col-12">
           <div class="card-box">
             <h5 class="fw-bold">Attendance</h5>
-            <div class="text-muted">Track your performance</div>
+            <div class="text-muted">Check performance</div>
           </div>
         </div>
 
         <div class="col-md-4 col-12">
           <div class="card-box">
             <h5 class="fw-bold">Hostel Details</h5>
-            <div class="text-muted">View your room info</div>
+            <div class="text-muted">Your accommodation</div>
           </div>
         </div>
-
       </div>
-
     </div>
 
 
@@ -236,7 +265,7 @@ body {
 
       <div class="card-box">
 
-        <div class="profile-pic mb-3">
+        <div class="profile-pic text-center mb-3">
           <img src="profile.jpg">
           <h5 class="fw-bold mt-3 mb-1">VALLURI SRI KRISHNA VARDAN</h5>
           <div class="text-muted">Roll No: 2403031260215 | CSE (3CYBER3)</div>
@@ -268,20 +297,6 @@ body {
         <p><strong>Address:</strong> House No-1-18 Main Road, Nelaparthipadu</p>
       </div>
 
-      <div class="table-container">
-        <div class="section-title">Recent Gate Passes</div>
-
-        <div class="table-responsive">
-          <table class="table table-bordered text-center">
-            <thead><tr><th>Sr</th><th>Reason</th><th>Place</th><th>From</th><th>To</th><th>Status</th></tr></thead>
-            <tbody>
-              <tr><td>1</td><td>Holiday</td><td>HOME</td><td>17-10-2025</td><td>02-11-2025</td><td><span class="badge bg-success">Approved</span></td></tr>
-            </tbody>
-          </table>
-        </div>
-
-      </div>
-
     </div>
 
 
@@ -289,7 +304,6 @@ body {
     <div id="attendance" class="page" style="display:none;">
 
       <div class="table-container">
-
         <div class="section-title">Attendance Overview</div>
 
         <div class="table-responsive">
