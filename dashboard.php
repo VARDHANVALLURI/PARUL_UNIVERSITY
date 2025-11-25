@@ -511,22 +511,190 @@ $subjects = [
 
 <?php endforeach; ?>
 
-
+</section>   <!-- CLOSE ATTENDANCE SECTION -->
 
     <!-- RESULTS -->
-    <section id="results" class="page" style="display:none" aria-labelledby="resTitle">
-      <div class="card text-center">
-        <h4 id="resTitle" class="section-title">2nd SEM Result</h4>
-        <img src="SEMRESULTSPHOTO.jpg" class="img-fluid rounded mb-3" alt="Result photo" style="max-width:100%">
-        <div><button class="btn btn-primary" onclick="downloadResultsPDF()">Download PDF</button></div>
-      </div>
-    </section>
+<section id="results" class="page" style="display:none" aria-labelledby="resTitle">
+
+<style>
+.res-card{
+  background:#fff;
+  padding:14px;
+  border-radius:14px;
+  box-shadow:0 2px 12px rgba(0,0,0,0.06);
+  margin-bottom:14px;
+}
+
+.res-table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:14px;
+}
+.res-table th{
+  background:#f0f4f7;
+  padding:10px;
+  font-weight:700;
+  border-bottom:1px solid #ddd;
+  text-align:center;
+}
+.res-table td{
+  padding:10px;
+  border-bottom:1px solid #eee;
+  text-align:center;
+}
+
+.result-pass{background:#e8fbe8;color:#1E9D32;font-weight:700;border-radius:6px;padding:4px 6px;}
+.result-fail{background:#fde4e4;color:#C62828;font-weight:700;border-radius:6px;padding:4px 6px;}
+.result-mid{background:#eef3ff;color:#3454D1;font-weight:700;border-radius:6px;padding:4px 6px;}
+
+.alert-fail{
+  background:#ffe5e5;
+  color:#c0392b;
+  font-weight:600;
+  padding:10px 14px;
+  border-radius:10px;
+  margin-top:10px;
+}
+.info-box{
+  background:#fff;
+  padding:14px;
+  border-radius:14px;
+  box-shadow:0 2px 10px rgba(0,0,0,0.05);
+  margin-top:14px;
+}
+.info-row{
+  display:flex;
+  justify-content:space-between;
+  padding:6px 0;
+  font-size:15px;
+}
+</style>
+
+<div class="res-card">
+  <h4 id="resTitle" class="section-title">Semester - 2 Result</h4>
+
+  <!-- TABLE -->
+  <div class="table-responsive">
+    <table class="res-table">
+      <thead>
+        <tr>
+          <th>Sr</th>
+          <th>Code</th>
+          <th>Subject</th>
+          <th>Credit</th>
+          <th>Result</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td>303105151</td>
+          <td>Computational Thinking for Structured Design-2</td>
+          <td>4.00</td>
+          <td><span class="result-pass">F2</span></td>
+        </tr>
+
+        <tr>
+          <td>2</td>
+          <td>303105153</td>
+          <td>Global Certifications – Azure, AWS, GCP</td>
+          <td>2.00</td>
+          <td><span class="result-pass">P</span></td>
+        </tr>
+
+        <tr>
+          <td>3</td>
+          <td>303105154</td>
+          <td>Mastering Kali Linux and OSINT</td>
+          <td>3.00</td>
+          <td><span class="result-pass">B-</span></td>
+        </tr>
+
+        <tr>
+          <td>4</td>
+          <td>303107152</td>
+          <td>ICT Workshop</td>
+          <td>1.00</td>
+          <td><span class="result-pass">B+</span></td>
+        </tr>
+
+        <tr>
+          <td>5</td>
+          <td>303191151</td>
+          <td>Mathematics-II</td>
+          <td>4.00</td>
+          <td><span class="result-pass">F2</span></td>
+        </tr>
+
+        <tr>
+          <td>6</td>
+          <td>303191202</td>
+          <td>Engineering Physics-II</td>
+          <td>4.00</td>
+          <td><span class="result-pass">F2</span></td>
+        </tr>
+
+        <tr>
+          <td>7</td>
+          <td>303193152</td>
+          <td>Advanced Communication & Technical Writing</td>
+          <td>2.00</td>
+          <td><span class="result-pass">F2</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- FAIL COUNT -->
+  <div class="alert-fail">
+    ❗ You are failed in 0 subjects
+  </div>
+
+  <!-- INFO CARD -->
+  <div class="info-box">
+
+    <div class="info-row">
+      <span>Seat No:</span>
+      <span><b>AF23604</b></span>
+    </div>
+
+    <div class="info-row">
+      <span>Name:</span>
+      <span><b>VALLURI SRI KRISHNA VARDAN</b></span>
+    </div>
+
+    <div class="info-row">
+      <span>Current Backlog:</span>
+      <span><b>0</b></span>
+    </div>
+
+    <div class="info-row">
+      <span>Total Backlog:</span>
+      <span><b>0</b></span>
+    </div>
+
+    <div class="info-row">
+      <span>SGPA:</span>
+      <span><b>6.75</b></span>
+    </div>
+
+    <div class="info-row">
+      <span>CGPA:</span>
+      <span><b>6.92</b></span>
+    </div>
+
+  </div>
+</div>
+
+</section>
+
 
     <!-- FEES -->
     <section id="fees" class="page" style="display:none" aria-labelledby="feesTitle">
       <div class="card">
         <h4 id="feesTitle" class="section-title">Fee Status</h4>
-        <div class="alert alert-success mb-0">All tuition, hostel, and miscellaneous fees have been cleared for the academic year.</div>
+        <div class="alert alert-success mb-0">ALL TUITION,HOSTEL FEES HAVE BEEN CLEARED FOR THE ACADEMIC YEAR 25-26.TO DOWNLOAD FEE RECIEPTS LOGIN TO GNUMS WEB PORTAL..</div>
       </div>
     </section>
 
