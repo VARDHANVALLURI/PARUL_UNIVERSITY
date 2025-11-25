@@ -464,6 +464,44 @@ box-shadow:0 2px 12px rgba(0,0,0,0.06);}
 
 </div>
 
+  <!-- SUBJECT WISE ATTENDANCE -->
+<br><br>
+<h4 class="section-title">Subject Wise Attendance</h4>
+
+<?php
+$subjects = [
+    "Operating Systems"          => ["present" => 25, "total" => 28],
+    "Operating Systems Lab"      => ["present" => 14, "total" => 14],
+    "Python"                     => ["present" => 27, "total" => 30],
+    "Python Lab"                 => ["present" => 15, "total" => 15],
+    "Networking"                 => ["present" => 21, "total" => 25],
+    "Networking Lab"             => ["present" => 12, "total" => 12],
+    "Software Engineering"       => ["present" => 18, "total" => 20],
+    "Software Engineering Lab"   => ["present" => 10, "total" => 10]
+];
+?>
+
+<style>
+.sub-card{
+  background:#fff;
+  padding:14px;
+  border-radius:14px;
+  box-shadow:0 3px 10px rgba(0,0,0,0.06);
+  margin-bottom:12px;
+}
+.sub-name{font-size:16px;font-weight:700;margin-bottom:6px;}
+.sub-info{font-size:14px;color:#555;}
+</style>
+
+<?php foreach($subjects as $name => $data): 
+    $present = $data["present"];
+    $total   = $data["total"];
+    $absent  = $total - $present;
+?>
+
+<div class="sub-card">
+
+
 </section>
 
 
