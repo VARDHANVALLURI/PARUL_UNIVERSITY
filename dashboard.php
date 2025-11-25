@@ -183,7 +183,7 @@ html, body, .content, .content-inner, .sidebar, .card, .home-card {max-width:100
     <div class="topbar">
       <div class="brand" style="align-items:center">
         <button id="openSidebarBtn" class="mobile-toggle" aria-label="Open menu"><i class="bi bi-list"></i></button>
-        <div>Student Portal</div>
+        <div>STUDENT PORTAL</div>
       </div>
       <div style="display:flex;gap:8px;align-items:center">
         <!-- removed quick links from home as requested -->
@@ -203,10 +203,10 @@ html, body, .content, .content-inner, .sidebar, .card, .home-card {max-width:100
           <div class="text-muted">Basic information</div>
           <div style="margin-top:10px;">
             <strong>VALLURI SRI KRISHNA VARDAN</strong><br>
-            Roll: 2403031260215 | CSE (3CYBER3)
+            Roll: 2403031260215 | CSE (4CYBER3)
           </div>
           <div style="margin-top:4px;font-weight:600;">
-            Hostel Bed No: <span style="color:#0d6efd;">Bed 3</span>
+            Hostel Bed No: <span style="color:#0d6efd;">BED-3</span>
           </div>
         </div>
 
@@ -228,8 +228,8 @@ html, body, .content, .content-inner, .sidebar, .card, .home-card {max-width:100
         <div class="progress" style="height:14px;">
           <div class="progress-bar" 
                role="progressbar" 
-               style="width: 94%;" 
-               aria-valuenow="94">94%</div>
+               style="width: 100%;" 
+               aria-valuenow="100">100%</div>
         </div>
       </div>
     </div>
@@ -261,7 +261,7 @@ html, body, .content, .content-inner, .sidebar, .card, .home-card {max-width:100
         alt="Student Photo"
         style="width:160px;height:160px;object-fit:cover;border-radius:14px;border:3px solid #d0d0d0;">
       <h5 class="fw-bold mt-3 mb-1">VALLURI SRI KRISHNA VARDAN</h5>
-      <div class="text-muted">Roll No: 2403031260215 | CSE (3CYBER3)</div>
+      <div class="text-muted">Roll No: 2403031260215 | CSE (4CYBER3)</div>
     </div>
 
     <!-- Auto-wrapping grid, no overflow -->
@@ -327,6 +327,11 @@ html, body, .content, .content-inner, .sidebar, .card, .home-card {max-width:100
             </tbody>
           </table>
         </div>
+
+         <!-- NOTE BELOW TABLE -->
+  <div style="padding:10px 0; color:#444; font-size:13px; text-align:center;">
+      <b>NOTE:</b> Only recent gate passes will be shown.
+  </div>
       </div>
     </section>
 
@@ -344,7 +349,7 @@ html, body, .content, .content-inner, .sidebar, .card, .home-card {max-width:100
 $attendance = [
     "2025-11-25" => ["P", "P", "P", "P", "P"],     // 5 slots day
     "2025-11-24" => ["P", "P", "A", "-"],          // 4 slot day
-    "2025-11-23" => ["P", "A", "P"],               // 3 slot day
+    
 ];
     
 // Calculate totals
@@ -470,14 +475,14 @@ box-shadow:0 2px 12px rgba(0,0,0,0.06);}
 
 <?php
 $subjects = [
-    "Operating Systems"          => ["present" => 25, "total" => 28],
-    "Operating Systems Lab"      => ["present" => 14, "total" => 14],
-    "Python"                     => ["present" => 27, "total" => 30],
-    "Python Lab"                 => ["present" => 15, "total" => 15],
-    "Networking"                 => ["present" => 21, "total" => 25],
-    "Networking Lab"             => ["present" => 12, "total" => 12],
-    "Software Engineering"       => ["present" => 18, "total" => 20],
-    "Software Engineering Lab"   => ["present" => 10, "total" => 10]
+    "Operating Systems"          => ["present" => 01, "total" => 01],
+    "Operating Systems Lab"      => ["present" => 0, "total" => 0],
+    "Python"                     => ["present" => 01, "total" => 01],
+    "Python Lab"                 => ["present" => 01, "total" => 01],
+    "Networking"                 => ["present" => 02, "total" => 02],
+    "Networking Lab"             => ["present" => 0, "total" => 0],
+    "Software Engineering"       => ["present" => 02, "total" => 02],
+    "Software Engineering Lab"   => ["present" => 01, "total" => 01]
 ];
 ?>
 
