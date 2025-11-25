@@ -330,21 +330,142 @@ html, body, .content, .content-inner, .sidebar, .card, .home-card {max-width:100
       </div>
     </section>
 
-    <!-- ATTENDANCE -->
-    <section id="attendance" class="page" style="display:none" aria-labelledby="attTitle">
-      <div class="table-container">
-        <h4 id="attTitle" class="section-title">Attendance Overview</h4>
-        <div class="table-responsive">
-          <table class="table table-bordered">
-            <thead><tr><th>Sr</th><th>Subject</th><th>Slot</th><th>Conducted</th><th>Present</th><th>Absent</th><th>%</th></tr></thead>
-            <tbody>
-              <tr><td>1</td><td>Design of Data Structures</td><td>Theory</td><td>28</td><td>26</td><td>2</td><td>98%</td></tr>
-              <tr><td>2</td><td>DDS Lab</td><td>Practical</td><td>20</td><td>19</td><td>0</td><td>99%</td></tr>
-            </tbody>
-          </table>
+ <!-- ATTENDANCE -->
+<section id="attendance" class="page" style="display:none">
+
+<?php
+/* ---------------------
+   MANUAL ATTENDANCE DATA
+   --------------------- */
+
+// Each date contains slot values: "P" (Present), "A" (Absent), "-" (No class)
+// You can add/remove dates and slots anytime.
+
+$attendance = [
+    "2025-11-25" => ["P", "P", "P", "P", "P"],     // 5 slots day
+    "2025-11-24" => ["P", "P", "A", "-"],          // 4 slot day
+    "2025-11-23" => ["P", "A", "P"],               // 3 slot day
+];
+    
+// Calculate totals
+$totalPresent = 0;
+$totalSlots = 0;
+
+foreach ($attendance as $date => $slots) {
+    foreach ($slots as $s) {
+        if ($s === "P") $totalPresent++;
+        if ($s === "P" || $s === "A") $totalSlots++;
+    }
+}
+
+$percent = $totalSlots > 0 ? round(($totalPresent / $totalSlots) * 100, 2) : 0;
+
+// Maximum slots = 5
+$maxSlots = 5;
+
+// Helper to get weekday
+function getDayName($date) {
+    return date("D", strtotime($date));
+}
+?>
+
+<style>
+.att-card{background:#fff;border-radius:14px;padding:14px;box-shadow:0 4px 12px rgba(0,0,0,0.06);margin-bottom:14px;}
+.att-title{font-size:20px;font-weight:700;}
+.att-sub{font-size:14px;color:#555;margin-top:2px;}
+.att-bar{width:100%;height:9px;background:#e3e3e3;border-radius:10px;margin-top:10px;overflow:hidden;}
+.att-bar-fill{height:100%;background:#26c85f;}
+.att-percent{text-align:right;font-weight:700;color:#1fa950;margin-top:4px;}
+
+.att-status-box{display:flex;justify-content:space-between;background:#fff;padding:14px;border-radius:12px;
+box-shadow:0 2px 10px rgba(0,0,0,0.05);font-size:14px;margin-bottom:14px;}
+.att-ok{color:#27ae60;font-weight:600;}
+.att-bad{color:#e74c3c;font-weight:600;}
+.att-mid{color:#e67e22;font-weight:600;}
+.att-info{color:#3498db;font-weight:600;}
+.att-legend{font-size:13px;color:#444;margin-bottom:8px;}
+
+.att-table{background:#fff;border-radius:14px;overflow:hidden;
+box-shadow:0 2px 12px rgba(0,0,0,0.06);}
+.att-header,.att-row{display:flex;padding:12px;border-bottom:1px solid #eee;}
+.att-header{background:#f8fafc;font-weight:700;}
+.att-col{flex:1;text-align:center;}
+
+.att-slot-p{background:#e7fbe9;color:#27ae60;font-weight:700;border-radius:10px;padding:6px 0;}
+.att-slot-a{background:#fdecea;color:#c0392b;font-weight:700;border-radius:10px;padding:6px 0;}
+.att-slot-n{background:#f0f0f0;color:#666;border-radius:10px;padding:6px 0;}
+</style>
+
+
+<!-- TOP CARD -->
+<div class="att-card">
+    <div class="att-title">Sem 4</div>
+    <div class="att-sub">A.Y. 2025–26 • Even</div>
+
+    <div class="att-bar">
+        <div class="att-bar-fill" style="width: <?= $percent ?>%;"></div>
+    </div>
+
+    <div class="att-percent"><?= $percent ?>%</div>
+</div>
+
+<!-- STATUS ROW -->
+<div class="att-status-box">
+    <div class="att-ok">Present: <b><?= $totalPresent ?> / <?= $totalSlots ?></b></div>
+    <div class="att-bad">Absent: <b><?= $totalSlots - $totalPresent ?></b></div>
+    <div class="att-mid">Pending: <b>0</b></div>
+    <div class="att-info">No Attendance: <b>0</b></div>
+</div>
+
+<div class="att-legend">P = Present, A = Absent, – = No Lecture/Lab</div>
+
+<!-- DYNAMIC TABLE -->
+<div class="att-table">
+
+    <!-- TABLE HEADER -->
+    <div class="att-header">
+        <div class="att-col">Date</div>
+        <?php for ($i=1; $i <= $maxSlots; $i++): ?>
+            <div class="att-col">Slot <?= $i ?></div>
+        <?php endfor; ?>
+    </div>
+
+    <!-- TABLE ROWS -->
+    <?php foreach ($attendance as $date => $slots): ?>
+        <div class="att-row">
+
+            <!-- DATE + DAY -->
+            <div class="att-col">
+                <?= date("d-M-y", strtotime($date)) ?><br>
+                <span style="font-size:12px;color:#777;"><?= getDayName($date) ?></span>
+            </div>
+
+            <!-- SLOT VALUES -->
+            <?php for ($i=0; $i < $maxSlots; $i++): ?>
+
+                <div class="att-col">
+                    <?php
+                    if (!isset($slots[$i])) {
+                        echo '<div class="att-slot-n">-</div>';
+                    } else if ($slots[$i] === "P") {
+                        echo '<div class="att-slot-p">P</div>';
+                    } else if ($slots[$i] === "A") {
+                        echo '<div class="att-slot-a">A</div>';
+                    } else {
+                        echo '<div class="att-slot-n">-</div>';
+                    }
+                    ?>
+                </div>
+
+            <?php endfor; ?>
+
         </div>
-      </div>
-    </section>
+    <?php endforeach; ?>
+
+</div>
+
+</section>
+
 
     <!-- RESULTS -->
     <section id="results" class="page" style="display:none" aria-labelledby="resTitle">
