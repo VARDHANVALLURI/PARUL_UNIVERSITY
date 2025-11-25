@@ -493,16 +493,24 @@ $subjects = [
 .sub-info{font-size:14px;color:#555;}
 </style>
 
-<?php foreach($subjects as $name => $data): 
+<?php foreach($subjects as $name => $data): ?>
+<?php
     $present = $data["present"];
     $total   = $data["total"];
     $absent  = $total - $present;
 ?>
 
 <div class="sub-card">
+    <div class="sub-name"><?= $name ?></div>
 
+    <div class="sub-info">
+        Present: <b><?= $present ?></b> / <?= $total ?><br>
+        Absent: <b><?= $absent ?></b> / <?= $total ?>
+    </div>
+</div>
 
-</section>
+<?php endforeach; ?>
+
 
 
     <!-- RESULTS -->
