@@ -221,7 +221,7 @@ html, body, .content, .content-inner, .sidebar, .card, .home-card {max-width:100
 
     <!-- Attendance Snapshot -->
     <div class="col-card card-box">
-      <div class="section-title">Attendance Snapshot</div>
+      <div class="section-title">ATTENDENCE SNAPSHOT:</div>
       <div class="text-muted">Quick overview</div>
 
       <div style="margin-top:12px;">
@@ -348,7 +348,7 @@ html, body, .content, .content-inner, .sidebar, .card, .home-card {max-width:100
 
 $attendance = [
     "2025-11-25" => ["P", "P", "P", "P", "P"],     // 5 slots day
-    "2025-11-24" => ["P", "P", "A", "-"],          // 4 slot day
+    "2025-11-24" => ["P", "P", "P", "-"],          // 4 slot day
     
 ];
     
