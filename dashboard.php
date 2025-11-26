@@ -5,192 +5,96 @@ if (!isset($_SESSION['student'])) {
   exit;
 }
 ?>
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Student Dashboard</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>STUDENT DASHBOARD</title>
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 
 <style>
-body{margin:0;padding:0;font-family:'Inter',sans-serif;background:#f4f6fb;}
-header{
-  background:#000;
-  color:#fff;
-  padding:22px 14px;
-  text-align:center;
-  border-bottom-left-radius:24px;
-  border-bottom-right-radius:24px;
-}
-.profile-photo{
-  width:95px;height:95px;border-radius:50%;border:3px solid #fff;object-fit:cover;margin-top:8px;
+body {
+  margin:0; padding:0; background:#f5f6fa;
+  font-family:'Inter',sans-serif; overflow-x:hidden;
 }
 
-.menu-grid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:16px;
-  padding:18px;
+/* Header */
+.header {
+  width:100%; background:#000; color:#fff;
+  padding:15px; font-weight:700; font-size:19px; text-align:center;
 }
 
-.menu-btn{
-  background:#fff;
-  border-radius:18px;
-  padding:16px 8px;
-  text-align:center;
-  font-weight:600;
-  font-size:14px;
-  box-shadow:0 4px 14px rgba(0,0,0,0.07);
-  cursor:pointer;
+/* Main pages */
+.page { display:none; padding:18px; }
+#home { display:block; }
+
+/* Profile Circle */
+.profile-box { text-align:center; margin-top:20px; }
+.profile-box img {
+  width:110px; height:110px; border-radius:50%;
+  object-fit:cover; border:3px solid #fff;
 }
+.profile-box h3 { margin-top:10px; font-weight:700; }
+.profile-box p { color:#555; margin:3px 0; }
 
-.menu-btn i{
-  font-size:26px;
-  margin-bottom:6px;
+/* Grid menu */
+.grid-menu {
+  display:grid; grid-template-columns:repeat(2,1fr);
+  gap:15px; margin-top:24px;
 }
+.menu-btn {
+  background:#fff; padding:20px; border-radius:16px;
+  text-align:center; box-shadow:0 4px 14px rgba(0,0,0,0.12);
+  font-weight:600; cursor:pointer;
+}
+.menu-btn i {
+  font-size:32px; margin-bottom:8px; display:block;
+}
+.menu-btn:hover { background:#e8e8e8; }
 
-.page{display:none;padding:16px;}
-
-.back-btn{
-  font-size:15px;
-  margin-bottom:12px;
-  cursor:pointer;
-  font-weight:600;
-  display:flex;
-  align-items:center;
-  gap:6px;
+/* Back button */
+.back-btn {
+  background:none; border:none; font-size:20px;
+  font-weight:700; margin-bottom:15px; cursor:pointer;
 }
 </style>
 </head>
+
 <body>
 
-<!-- HEADER -->
-<header>
-  <img src="your_profile_small.jpg" class="profile-photo">
-  <h4 class="mt-2 fw-bold">VALLURI SRI KRISHNA VARDAN</h4>
-  <div style="font-size:13px;color:#cfcfcf;">CSE CYBER SECURITY • 4th SEM • CSE-CYBER3</div>
-</header>
+<div class="header">STUDENT PORTAL</div>
 
-<!-- HOME MENU GRID -->
+<!-- ================= HOME PAGE ================ -->
 <section id="home" class="page" style="display:block;">
-  <div class="menu-grid">
 
-    <div class="menu-btn" onclick="openPage('attendance')" style="color:#0056d6;">
-      <i class="bi bi-clipboard2-check"></i><br>Attendance
-    </div>
-
-    <div class="menu-btn" onclick="openPage('results')" style="color:#ff7a00;">
-      <i class="bi bi-bar-chart"></i><br>Results
-    </div>
-
-    <div class="menu-btn" onclick="openPage('fees')" style="color:#28a745;">
-      <i class="bi bi-cash-coin"></i><br>Fees
-    </div>
-
-    <div class="menu-btn" onclick="openPage('student')" style="color:#6f42c1;">
-      <i class="bi bi-person-vcard"></i><br>Student Info
-    </div>
-
-    <div class="menu-btn" onclick="openPage('hostel')" style="color:#0db2b5;">
-      <i class="bi bi-building"></i><br>Hostel
-    </div>
-
+  <div class="profile-box">
+    <img src="your_profile_small.jpg" alt="Profile">
+    <h3>VALLURI SRI KRISHNA VARDAN</h3>
+    <p>Roll No: 2403031260215|48</p>
+    <p>CSE(4CYBER2)BATCH 2</p>
   </div>
-</section>
 
-
-   <!-- STUDENT INFO -->
-<section id="student" class="page" style="display:none;">
-
-  <div class="card-box">
-
-    <!-- Medium placeholder -->
-    <div class="profile-pic text-center mb-3">
-      <img 
-        src="your_profile_medium.jpg"
-        alt="Student Photo"
-        style="width:160px;height:160px;object-fit:cover;border-radius:14px;border:3px solid #d0d0d0;">
-      <h5 class="fw-bold mt-3 mb-1">VALLURI SRI KRISHNA VARDAN</h5>
-      <div class="text-muted">Roll No: 2403031260215 | CSE (4CYBER3)</div>
-    </div>
-
-    <!-- Auto-wrapping grid, no overflow -->
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;">
-
-      <div class="card-box" style="padding:12px;">
-        <div class="text-muted">DOB</div>
-        <div style="font-weight:600;margin-top:6px;">28-11-2006</div>
-      </div>
-
-      <div class="card-box" style="padding:12px;">
-        <div class="text-muted">Student Phone</div>
-        <div style="font-weight:600;margin-top:6px;">6281048554</div>
-      </div>
-
-      <div class="card-box" style="padding:12px;">
-        <div class="text-muted">College Email</div>
-        <div style="word-break:break-all;font-weight:600;margin-top:6px;">
-          2403031260215@paruluniversity.ac.in
-        </div>
-      </div>
-
-      <div class="card-box" style="padding:12px;">
-        <div class="text-muted">Personal Email</div>
-        <div style="word-break:break-all;font-weight:600;margin-top:6px;">
-          krishnavardhan124@gmail.com
-        </div>
-      </div>
-
-    </div>
-
-    <div style="margin-top:18px;">
-      <div class="section-title">Parents / Guardian</div>
-      <p><strong>Father:</strong> VALLURI VENKATA KRISHNANANDA CHOWDARY | 9951996671</p>
-      <p><strong>Mother:</strong> VALLURI VISALAKSHI | 6301244329</p>
-    </div>
-
+  <div class="grid-menu">
+    <div class="menu-btn" onclick="openPage('attendance')"><i class="bi bi-clipboard2-check"></i>Attendance</div>
+    <div class="menu-btn" onclick="openPage('results')"><i class="bi bi-bar-chart"></i>Results</div>
+    <div class="menu-btn" onclick="openPage('fees')"><i class="bi bi-cash-coin"></i>Fees</div>
+    <div class="menu-btn" onclick="openPage('student')"><i class="bi bi-person-vcard"></i>Student Info</div>
+    <div class="menu-btn" onclick="openPage('hostel')"><i class="bi bi-building"></i>Hostel</div>
   </div>
 
 </section>
 
 
-    <!-- HOSTEL -->
-    <section id="hostel" class="page" style="display:none" aria-labelledby="hostelTitle">
-      <div class="card">
-        <h3 id="hostelTitle" class="section-title">Hostel Details</h3>
-        <p><strong>Reg No:</strong> 42043</p>
-        <p><strong>Block:</strong> TAGORE BHAWAN - C (Non AC)</p>
-        <p><strong>Room:</strong> Floor 3 | Room C-361 | Bed 3</p>
-        <p><strong>Duration:</strong> 01-07-2025 → 30-06-2026</p>
-        <p><strong>City:</strong> EAST GODAVARI</p>
-        <p><strong>Address:</strong> HOUSE NO-1-18 MAIN ROAD, NELAPARTHIPADU, DRAKSHARAMAM</p>
-      </div>
+<!-- ================= ATTENDANCE PAGE ================ -->
+<section id="attendance" class="page">
+  <button class="back-btn" onclick="openPage('home')"><i class="bi bi-arrow-left"></i> Back</button>
+  <h3>Attendance</h3>
+   <!-- ATTENDANCE -->
 
-      <div class="table-container">
-        <h4 class="section-title">Recent Gate Passes</h4>
-        <div class="table-responsive">
-          <table class="table table-bordered">
-            <thead><tr><th>Sr</th><th>Reason</th><th>Place</th><th>From</th><th>To</th><th>Status</th></tr></thead>
-            <tbody>
-              <tr><td>1</td><td>Holiday</td><td>HOME</td><td>17-10-2025</td><td>02-11-2025</td><td><span class="badge bg-success">Approved</span></td></tr>
-              <tr><td>2</td><td>Personal</td><td>PAVGADH</td><td>19-07-2025</td><td>19-07-2025</td><td><span class="badge bg-success">Approved</span></td></tr>
-            </tbody>
-          </table>
-        </div>
-
-         <!-- NOTE BELOW TABLE -->
-  <div style="padding:10px 0; color:#444; font-size:13px; text-align:center;">
-      <b>NOTE:</b> Only recent gate passes will be shown.
-  </div>
-      </div>
-    </section>
-
- <!-- ATTENDANCE -->
-<section id="attendance" class="page" style="display:none">
 
 <?php
 /* ---------------------
@@ -372,8 +276,138 @@ $subjects = [
 
 </section>   <!-- CLOSE ATTENDANCE SECTION -->
 
-    <!-- RESULTS -->
-<section id="results" class="page" style="display:none" aria-labelledby="resTitle">
+
+
+<!-- ================= STUDENT INFO PAGE ================ -->
+<section id="student" class="page" style="display:none">
+  <button class="back-btn" onclick="openPage('home')">
+    <i class="bi bi-arrow-left"></i> Back
+  </button>
+  <h3>Student Information</h3>
+
+  <div class="card-box">
+
+    <!-- Profile photo -->
+    <div class="profile-pic text-center mb-3">
+      <img 
+        src="your_profile_medium.jpg"
+        alt="Student Photo"
+        style="width:160px;height:160px;object-fit:cover;border-radius:14px;border:3px solid #d0d0d0;">
+      <h5 class="fw-bold mt-3 mb-1">VALLURI SRI KRISHNA VARDAN</h5>
+      <div class="text-muted">Roll No: 2403031260215 | CSE (4CYBER3)</div>
+    </div>
+
+    <!-- Information grid -->
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;">
+
+      <div class="card-box" style="padding:12px;">
+        <div class="text-muted">DOB</div>
+        <div style="font-weight:600;margin-top:6px;">28-11-2006</div>
+      </div>
+
+      <div class="card-box" style="padding:12px;">
+        <div class="text-muted">Student Phone</div>
+        <div style="font-weight:600;margin-top:6px;">6281048554</div>
+      </div>
+
+      <div class="card-box" style="padding:12px;">
+        <div class="text-muted">College Email</div>
+        <div style="word-break:break-all;font-weight:600;margin-top:6px;">
+          2403031260215@paruluniversity.ac.in
+        </div>
+      </div>
+
+      <div class="card-box" style="padding:12px;">
+        <div class="text-muted">Personal Email</div>
+        <div style="word-break:break-all;font-weight:600;margin-top:6px;">
+          krishnavardhan124@gmail.com
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Parents -->
+    <div style="margin-top:18px;">
+      <div class="section-title">Parents / Guardian</div>
+      <p><strong>Father:</strong> VALLURI VENKATA KRISHNANANDA CHOWDARY | 9951996671</p>
+      <p><strong>Mother:</strong> VALLURI VISALAKSHI | 6301244329</p>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ================= HOSTEL PAGE ================ -->
+<section id="hostel" class="page" style="display:none">
+  <button class="back-btn" onclick="openPage('home')">
+    <i class="bi bi-arrow-left"></i> Back
+  </button>
+  <h3>Hostel</h3>
+
+  <div class="card" style="margin-top:10px;">
+    <h4 class="section-title">Hostel Details</h4>
+    <p><strong>Reg No:</strong> 42043</p>
+    <p><strong>Block:</strong> TAGORE BHAWAN - C (Non AC)</p>
+    <p><strong>Room:</strong> Floor 3 | Room C-361 | Bed 3</p>
+    <p><strong>Duration:</strong> 01-07-2025 → 30-06-2026</p>
+    <p><strong>City:</strong> EAST GODAVARI</p>
+    <p><strong>Address:</strong> HOUSE NO-1-18 MAIN ROAD, NELAPARTHIPADU, DRAKSHARAMAM</p>
+  </div>
+
+  <div class="card" style="margin-top:14px;">
+    <h4 class="section-title">Recent Gate Passes</h4>
+
+    <div class="table-responsive">
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>Sr</th>
+            <th>Reason</th>
+            <th>Place</th>
+            <th>From</th>
+            <th>To</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>Holiday</td>
+            <td>HOME</td>
+            <td>17-10-2025</td>
+            <td>02-11-2025</td>
+            <td><span class="badge bg-success">Approved</span></td>
+          </tr>
+
+          <tr>
+            <td>2</td>
+            <td>Personal</td>
+            <td>PAVGADH</td>
+            <td>19-07-2025</td>
+            <td>19-07-2025</td>
+            <td><span class="badge bg-success">Approved</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div style="padding:10px 0; text-align:center; font-size:13px; color:#555;">
+      <b>NOTE:</b> Only recent gate passes will be shown.
+    </div>
+  </div>
+
+</section>
+
+
+
+<!-- ================= RESULTS PAGE ================ -->
+<section id="results" class="page" style="display:none">
+
+  <button class="back-btn" onclick="openPage('home')">
+    <i class="bi bi-arrow-left"></i> Back
+  </button>
+  <h3>Results</h3>
 
 <style>
 .res-card{
@@ -381,6 +415,7 @@ $subjects = [
   padding:14px;
   border-radius:14px;
   box-shadow:0 2px 12px rgba(0,0,0,0.06);
+  margin-top:14px;
   margin-bottom:14px;
 }
 
@@ -430,9 +465,8 @@ $subjects = [
 </style>
 
 <div class="res-card">
-  <h4 id="resTitle" class="section-title">Semester - 2 Result</h4>
+  <h4 class="section-title">Semester - 2 Result</h4>
 
-  <!-- TABLE -->
   <div class="table-responsive">
     <table class="res-table">
       <thead>
@@ -444,202 +478,96 @@ $subjects = [
           <th>Result</th>
         </tr>
       </thead>
-
       <tbody>
-        <tr>
-          <td>1</td>
-          <td>303105151</td>
-          <td>Computational Thinking for Structured Design-2</td>
-          <td>4.00</td>
-          <td><span class="result-pass">F2</span></td>
-        </tr>
-
-        <tr>
-          <td>2</td>
-          <td>303105153</td>
-          <td>Global Certifications – Azure, AWS, GCP</td>
-          <td>2.00</td>
-          <td><span class="result-pass">P</span></td>
-        </tr>
-
-        <tr>
-          <td>3</td>
-          <td>303105154</td>
-          <td>Mastering Kali Linux and OSINT</td>
-          <td>3.00</td>
-          <td><span class="result-pass">B-</span></td>
-        </tr>
-
-        <tr>
-          <td>4</td>
-          <td>303107152</td>
-          <td>ICT Workshop</td>
-          <td>1.00</td>
-          <td><span class="result-pass">B+</span></td>
-        </tr>
-
-        <tr>
-          <td>5</td>
-          <td>303191151</td>
-          <td>Mathematics-II</td>
-          <td>4.00</td>
-          <td><span class="result-pass">F2</span></td>
-        </tr>
-
-        <tr>
-          <td>6</td>
-          <td>303191202</td>
-          <td>Engineering Physics-II</td>
-          <td>4.00</td>
-          <td><span class="result-pass">F2</span></td>
-        </tr>
-
-        <tr>
-          <td>7</td>
-          <td>303193152</td>
-          <td>Advanced Communication & Technical Writing</td>
-          <td>2.00</td>
-          <td><span class="result-pass">F2</span></td>
-        </tr>
+        <tr><td>1</td><td>303105151</td><td>Computational Thinking for Structured Design-2</td><td>4.00</td><td><span class="result-pass">B</span></td></tr>
+        <tr><td>2</td><td>303105153</td><td>Global Certifications – Azure, AWS, GCP</td><td>2.00</td><td><span class="result-pass">A+</span></td></tr>
+        <tr><td>3</td><td>303105154</td><td>Mastering Kali Linux and OSINT</td><td>3.00</td><td><span class="result-pass">B</span></td></tr>
+        <tr><td>4</td><td>303107152</td><td>ICT Workshop</td><td>1.00</td><td><span class="result-pass">B+</span></td></tr>
+        <tr><td>5</td><td>303191151</td><td>Mathematics-II</td><td>4.00</td><td><span class="result-pass">B</span></td></tr>
+        <tr><td>6</td><td>303191202</td><td>Engineering Physics-II</td><td>4.00</td><td><span class="result-pass">B+</span></td></tr>
+        <tr><td>7</td><td>303193152</td><td>Advanced Communication & Technical Writing</td><td>2.00</td><td><span class="result-pass">A</span></td></tr>
       </tbody>
     </table>
   </div>
 
-  <!-- FAIL COUNT -->
   <div class="alert-fail">
-    ❗ You are failed in 0 subjects
+    ❗ You are failed in 0 subjects(...PROMOTED TO 3rd SEMESTER...)
   </div>
 
-  <!-- INFO CARD -->
   <div class="info-box">
+    <div class="info-row"><span>Seat No:</span><span><b>AF23604</b></span></div>
+    <div class="info-row"><span>Name:</span><span><b>VALLURI SRI KRISHNA VARDAN</b></span></div>
+    <div class="info-row"><span>Current Backlog:</span><span><b>0</b></span></div>
+    <div class="info-row"><span>Total Backlog:</span><span><b>0</b></span></div>
+    <div class="info-row"><span>SGPA:</span><span><b>6.75</b></span></div>
+    <div class="info-row"><span>CGPA:</span><span><b>6.92</b></span></div>
+  </div>
 
-    <div class="info-row">
-      <span>Seat No:</span>
-      <span><b>AF23604</b></span>
-    </div>
+</div>
 
-    <div class="info-row">
-      <span>Name:</span>
-      <span><b>VALLURI SRI KRISHNA VARDAN</b></span>
-    </div>
+</section>
 
-    <div class="info-row">
-      <span>Current Backlog:</span>
-      <span><b>0</b></span>
-    </div>
 
-    <div class="info-row">
-      <span>Total Backlog:</span>
-      <span><b>0</b></span>
-    </div>
+<!-- ================= FEES PAGE ================ -->
+<section id="fees" class="page" style="display:none">
 
-    <div class="info-row">
-      <span>SGPA:</span>
-      <span><b>6.75</b></span>
-    </div>
+  <button class="back-btn" onclick="openPage('home')">
+    <i class="bi bi-arrow-left"></i> Back
+  </button>
+  <h3>Fee Status</h3>
 
-    <div class="info-row">
-      <span>CGPA:</span>
-      <span><b>6.92</b></span>
-    </div>
+<style>
+.fee-card{
+  background:#fff;
+  padding:16px;
+  border-radius:14px;
+  margin-top:14px;
+  box-shadow:0 2px 12px rgba(0,0,0,0.06);
+}
 
+.fee-success{
+  background:#e8fbe8;
+  color:#0d8a26;
+  font-weight:600;
+  padding:14px;
+  border-radius:12px;
+  text-align:center;
+  font-size:15px;
+  line-height:1.6;
+}
+
+.fee-note{
+  font-size:13px;
+  color:#444;
+  margin-top:10px;
+  text-align:center;
+}
+</style>
+
+<div class="fee-card">
+  <div class="fee-success">
+    ALL TUITION & HOSTEL FEES HAVE BEEN CLEARED FOR A.Y 2025–26.<br>
+    LOGIN TO <b>GNUMS</b> PORTAL TO DOWNLOAD FEE RECEIPTS.
+  </div>
+
+  <div class="fee-note">
+    Last Updated: 26-Nov-2025 • For errors contact Accounts Office
   </div>
 </div>
 
 </section>
 
 
-    <!-- FEES -->
-    <section id="fees" class="page" style="display:none" aria-labelledby="feesTitle">
-      <div class="card">
-        <h4 id="feesTitle" class="section-title">Fee Status</h4>
-        <div class="alert alert-success mb-0">ALL TUITION,HOSTEL FEES HAVE BEEN CLEARED FOR THE ACADEMIC YEAR 25-26.TO DOWNLOAD FEE RECIEPTS LOGIN TO GNUMS WEB PORTAL..</div>
-      </div>
-    </section>
-
-    <div class="footer-space"></div>
-  </div>
-</main>
 
 <script>
-/* Elements */
-const sidebar = document.getElementById('sidebar');
-const openBtn = document.getElementById('openSidebarBtn');
-const closeBtn = document.getElementById('closeSidebarBtn');
-const overlay = document.getElementById('sidebarOverlay');
-const sidebarLinks = sidebar ? sidebar.querySelectorAll('a[data-target]') : [];
-
-/* Safety: if elements missing, do nothing */
-function safeAdd(el, ev, fn){ if(el) el.addEventListener(ev,fn); }
-
-/* Mobile detection */
-function isMobile(){ return window.innerWidth <= 768; }
-
-/* Open / close */
-function openSidebar(){
-  if(!sidebar) return;
-  sidebar.classList.add('open');
-  overlay.classList.add('visible');
-  // prevent body scroll while sidebar open
-  document.body.style.overflow = 'hidden';
-}
-function closeSidebar(){
-  if(!sidebar) return;
-  sidebar.classList.remove('open');
-  overlay.classList.remove('visible');
-  document.body.style.overflow = '';
-}
-safeAdd(openBtn,'click', openSidebar);
-safeAdd(closeBtn,'click', closeSidebar);
-safeAdd(overlay,'click', closeSidebar);
-
-/* Navigate pages and auto-close on mobile */
 function openPage(pageId){
-  const pages = ['home','student','hostel','attendance','results','fees'];
+  const pages = ['home','attendance','student','hostel','results','fees'];
   pages.forEach(p=>{
-    const el = document.getElementById(p);
-    if(el) el.style.display = (p === pageId) ? 'block' : 'none';
-    const link = document.getElementById('link-'+p);
-    if(link) {
-      if(p === pageId) link.classList.add('active'); else link.classList.remove('active');
-    }
+    document.getElementById(p).style.display = (p === pageId) ? "block" : "none";
   });
-  // ensure viewport top for small screens
-  window.scrollTo({top:0,behavior:'smooth'});
-  if(isMobile()) closeSidebar();
-}
-
-/* attach link handlers (safe) */
-sidebarLinks.forEach(link=>{
-  safeAdd(link,'click', function(e){
-    e.preventDefault();
-    const t = this.getAttribute('data-target');
-    if(t) openPage(t);
-  });
-});
-
-/* resize handler: ensure sidebar state consistent */
-window.addEventListener('resize', function(){
-  if(!isMobile()){
-    // desktop-like: ensure overlay hidden and sidebar reset
-    overlay.classList.remove('visible');
-    if(sidebar) sidebar.classList.remove('open');
-    document.body.style.overflow = '';
-  } else {
-    // mobile default: hide sidebar (but keep previous open state if user opened)
-    if(sidebar && !sidebar.classList.contains('open')) {
-      overlay.classList.remove('visible');
-    }
-  }
-});
-
-/* Initialize view */
-openPage('home');
-
-/* PDF download placeholder */
-function downloadResultsPDF(){
-  alert("Download PDF: implement export with html2canvas + jsPDF or server-side.");
+  window.scrollTo(0,0);
 }
 </script>
+
 </body>
 </html>
