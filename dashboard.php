@@ -12,244 +12,84 @@ if (!isset($_SESSION['student'])) {
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Student Dashboard (Mobile)</title>
 
-<!-- Bootstrap (only for utilities) -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-
-<!-- Icons -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-
-<!-- Inter font -->
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
-/* ---------- Global / Mobile-first ---------- */
-:root { --nav-height:56px; --sidebar-w:84%; }
-*{box-sizing:border-box}
-html,body{height:100%;margin:0;padding:0;overflow-x:hidden;font-family:'Inter',system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial;color:#0f1724;background:#f6f7fb;}
-a{color:inherit}
-
-/* ---------- Background (dashboard only) ---------- */
-/* using uploaded file path exactly as provided */
-.content {
-  min-height:100vh;
-  background-image: url("/mnt/data/e0739b2c-67d4-438c-a089-96b469d1c723.png");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  position:relative;
-  padding:12px;
+body{
+  margin:0;
+  padding:0;
+  font-family:'Inter',sans-serif;
+  background:#f6f7fb;
 }
 
-/* translucent overlay for readability */
-.content::before{
-  content:"";
-  position:fixed;
-  inset:0;
-  background:rgba(255,255,255,0.86);
-  z-index:0;
-  pointer-events:none;
+header{
+  background:#000;
+  color:#fff;
+  padding:20px 16px;
+  text-align:center;
+  border-bottom-left-radius:20px;
+  border-bottom-right-radius:20px;
 }
 
-/* inner container sits above overlay */
-.content-inner{position:relative;z-index:1;}
-
-/* ---------- Topbar (mobile) ---------- */
-.topbar{
-  height:var(--nav-height);
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:8px;
-  margin-bottom:12px;
+.profile-img{
+  width:95px;
+  height:95px;
+  object-fit:cover;
+  border-radius:50%;
+  border:3px solid #ffffff;
+  margin-top:10px;
 }
-.brand{display:flex;align-items:center;gap:8px;font-weight:700}
-.mobile-toggle{background:transparent;border:0;font-size:22px;color:#0b3a8c;padding:6px;border-radius:8px}
-.logout-btn{font-size:13px}
 
-/* ---------- Off-canvas sidebar (mobile) ---------- */
-.sidebar {
-  position:fixed;
-  left:0;
-  top:0;
-  bottom:0;
-  width:var(--sidebar-w);
-  max-width:420px;
-  transform:translateX(-110%);
+.menu-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:14px;
+  padding:18px;
+  margin-top:-20px;
+}
+
+.menu-btn{
   background:#fff;
-  box-shadow:12px 0 40px rgba(2,6,23,0.12);
-  z-index:2200;
-  transition:transform .28s cubic-bezier(.2,.9,.2,1);
-  padding:12px 10px;
-  overflow:auto;
-  -webkit-overflow-scrolling:touch;
-}
-.sidebar.open{transform:translateX(0)}
-.sidebar .close-btn{display:flex;justify-content:flex-end;padding:4px 8px}
-.sidebar .nav{display:flex;flex-direction:column;gap:6px;padding:6px}
-.sidebar a{padding:12px 14px;border-radius:8px;text-decoration:none;color:#0b2540;font-weight:600}
-.sidebar a.active{background:#eef6ff;border-left:4px solid #0d6efd;color:#0b3a8c}
-
-/* overlay behind sidebar */
-#sidebarOverlay{
-  position:fixed;inset:0;background:rgba(0,0,0,0.35);z-index:2100;display:none;
-}
-#sidebarOverlay.visible{display:block}
-
-/* ---------- Content layout (mobile-first) ---------- */
-.container-stack{display:flex;flex-direction:column;gap:12px}
-
-/* home cards (kept per your request) */
-.home-cards{display:flex;gap:10px;flex-wrap:wrap}
-.home-card{
-  flex:1 1 calc(50% - 10px);
-  min-width:120px;
-  background:rgba(255,255,255,0.98);
-  border-radius:12px;padding:12px;
-  box-shadow:0 6px 18px rgba(2,6,23,0.06);
-  display:flex;flex-direction:column;justify-content:space-between;
-}
-.home-card h6{margin:0;font-size:15px;font-weight:700}
-.home-card p{margin:6px 0 0;font-size:13px;color:#475569}
-
-/* ensure full width for single column on narrow screens */
-@media (max-width:360px){
-  .home-card{flex-basis:100%}
+  padding:16px;
+  border-radius:14px;
+  text-align:center;
+  box-shadow:0 4px 12px rgba(0,0,0,0.10);
+  font-size:14px;
+  font-weight:700;
+  cursor:pointer;
 }
 
-/* ---------- Cards & tables ---------- */
-.card{
-  background:rgba(255,255,255,0.96);
-  border-radius:12px;
-  padding:12px;
-  box-shadow:0 6px 18px rgba(2,6,23,0.06);
-}
-.card .section-title{font-weight:700;margin-bottom:8px;font-size:16px}
-.kv-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.kv{background:transparent;padding:8px;border-radius:8px}
-.kv .k{font-size:12px;color:#475569}
-.kv .v{font-weight:700;margin-top:6px;color:#0f1724}
-
-/* make kv single column if too narrow */
-@media (max-width:420px){
-  .kv-grid{grid-template-columns:1fr}
-}
-
-/* tables responsive */
-.table-responsive{overflow:auto;-webkit-overflow-scrolling:touch}
-.table-responsive table{width:100%;border-collapse:collapse}
-.table th, .table td{padding:8px;text-align:center;border-top:1px solid #eef2f6}
-
-/* remove horizontal scroll by clamping widths */
-img, table{max-width:100%;height:auto}
-
-/* ---------- Accessibility & safe spacing ---------- */
-.small-muted{font-size:13px;color:#64748b}
-.btn-ghost{background:transparent;border:1px solid rgba(15,23,42,0.06);padding:6px 10px;border-radius:8px}
-
-/* ---------- Prevent any accidental horizontal scroll ---------- */
-html, body, .content, .content-inner, .sidebar, .card, .home-card {max-width:100vw;}
-
-/* ---------- Footer spacing ---------- */
-.footer-space{height:28px}
+.page{display:none;}
 </style>
 </head>
 <body>
 
-<!-- Sidebar overlay (closes sidebar) -->
-<div id="sidebarOverlay" aria-hidden="true"></div>
+<!-- HEADER -->
+<header>
+  <img src="your_profile_small.jpg" class="profile-img" alt="profile">
+  <h4 style="margin-top:12px;font-weight:700;">VALLURI SRI KRISHNA VARDAN</h4>
+  <div style="font-size:14px;color:#cfcfcf;">CSE CYBER SECURITY | 4th SEM | Div CSE-CYBER3</div>
+</header>
 
-<!-- Off-canvas sidebar -->
-<nav id="sidebar" class="sidebar" aria-label="Main menu">
-  <div class="close-btn">
-    <button id="closeSidebarBtn" aria-label="Close menu" class="mobile-toggle"><i class="bi bi-x-lg"></i></button>
-  </div>
-  <div class="nav" role="navigation" aria-label="Primary">
-    <a href="#" id="link-home" data-target="home" class="active">Dashboard Home</a>
-    <a href="#" id="link-student" data-target="student">Student Info</a>
-    <a href="#" id="link-hostel" data-target="hostel">Hostel</a>
-    <a href="#" id="link-attendance" data-target="attendance">Attendance</a>
-    <a href="#" id="link-results" data-target="results">Results</a>
-    <a href="#" id="link-fees" data-target="fees">Fees</a>
-    <hr />
-    <a href="logout.php" class="small-muted">Logout</a>
-  </div>
-</nav>
+<!-- MENU BUTTONS -->
+<div class="menu-grid">
+  <div class="menu-btn" style="color:#0056d6;" onclick="openPage('attendance')"><i class="bi bi-clipboard2-check" style="font-size:22px;"></i><br>Attendance</div>
+  <div class="menu-btn" style="color:#ff7a00;" onclick="openPage('results')"><i class="bi bi-file-bar-graph" style="font-size:22px;"></i><br>Results</div>
+  <div class="menu-btn" style="color:#28a745;" onclick="openPage('fees')"><i class="bi bi-cash-coin" style="font-size:22px;"></i><br>Fees</div>
+  <div class="menu-btn" style="color:#6f42c1;" onclick="openPage('student')"><i class="bi bi-person-badge" style="font-size:22px;"></i><br>Student Info</div>
+  <div class="menu-btn" style="color:#0db2b5;" onclick="openPage('hostel')"><i class="bi bi-building" style="font-size:22px;"></i><br>Hostel</div>
+</div>
 
-<!-- Main content -->
-<main class="content" role="main">
-  <div class="content-inner">
 
-    <!-- Topbar -->
-    <div class="topbar">
-      <div class="brand" style="align-items:center">
-        <button id="openSidebarBtn" class="mobile-toggle" aria-label="Open menu"><i class="bi bi-list"></i></button>
-        <div>STUDENT PORTAL</div>
-      </div>
-      <div style="display:flex;gap:8px;align-items:center">
-        <!-- removed quick links from home as requested -->
-        <a href="logout.php" class="btn btn-ghost logout-btn">Logout</a>
-      </div>
-    </div>
+<!-- PAGES SECTIONS BELOW -->
+<section id="home" class="page" style="display:block;"></section>
 
-  <!-- HOME -->
-<section id="home" class="page">
-  <div class="row-gap">
+<?php /*--------------------- EXISTING STUDENT / HOSTEL / ATTENDANCE / RESULTS / FEES CODE BELOW ----------------------*/ ?>
 
-    <!-- Profile Card -->
-    <div class="col-card card-box">
-      <div style="display:flex;align-items:center;gap:14px;">
-        <div style="flex:1;min-width:0;">
-          <div class="section-title">Profile</div>
-          <div class="text-muted">Basic information</div>
-          <div style="margin-top:10px;">
-            <strong>VALLURI SRI KRISHNA VARDAN</strong><br>
-            Roll: 2403031260215 | CSE (4CYBER3)
-          </div>
-          <div style="margin-top:4px;font-weight:600;">
-            Hostel Bed No: <span style="color:#0d6efd;">BED-3</span>
-          </div>
-        </div>
 
-        <!-- Small profile placeholder -->
-        <div style="width:85px;text-align:center;">
-          <img src="your_profile_small.jpg" 
-            alt="Profile" 
-            style="width:75px;height:75px;object-fit:cover;border-radius:10px;border:2px solid #d7dce3;">
-        </div>
-      </div>
-    </div>
-
-    <!-- Attendance Snapshot -->
-    <div class="col-card card-box">
-      <div class="section-title">ATTENDENCE SNAPSHOT:</div>
-      <div class="text-muted">Quick overview</div>
-
-      <div style="margin-top:12px;">
-        <div class="progress" style="height:14px;">
-          <div class="progress-bar" 
-               role="progressbar" 
-               style="width: 100%;" 
-               aria-valuenow="100">100%</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Hostel Card -->
-    <div class="col-card card-box">
-      <div class="section-title">Hostel</div>
-      <div class="text-muted">Room & Allocation</div>
-      <div style="margin-top:10px;">
-        <strong>TAGORE BHAWAN - C</strong><br>
-        Floor 3 | Room C-361 | <span style="color:#0d6efd;font-weight:600;">Bed 3</span>
-      </div>
-    </div>
-
-  </div>
-</section>
-  
-          
-
-   <!-- STUDENT INFO -->
+ <!-- STUDENT INFO -->
 <section id="student" class="page" style="display:none;">
 
   <div class="card-box">
