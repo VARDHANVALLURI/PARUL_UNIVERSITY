@@ -10,86 +10,100 @@ if (!isset($_SESSION['student'])) {
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Student Dashboard (Mobile)</title>
+<title>Student Dashboard</title>
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 
 <style>
-body{
-  margin:0;
-  padding:0;
-  font-family:'Inter',sans-serif;
-  background:#f6f7fb;
-}
-
+body{margin:0;padding:0;font-family:'Inter',sans-serif;background:#f4f6fb;}
 header{
   background:#000;
   color:#fff;
-  padding:20px 16px;
+  padding:22px 14px;
   text-align:center;
-  border-bottom-left-radius:20px;
-  border-bottom-right-radius:20px;
+  border-bottom-left-radius:24px;
+  border-bottom-right-radius:24px;
 }
-
-.profile-img{
-  width:95px;
-  height:95px;
-  object-fit:cover;
-  border-radius:50%;
-  border:3px solid #ffffff;
-  margin-top:10px;
+.profile-photo{
+  width:95px;height:95px;border-radius:50%;border:3px solid #fff;object-fit:cover;margin-top:8px;
 }
 
 .menu-grid{
   display:grid;
   grid-template-columns:repeat(3,1fr);
-  gap:14px;
+  gap:16px;
   padding:18px;
-  margin-top:-20px;
 }
 
 .menu-btn{
   background:#fff;
-  padding:16px;
-  border-radius:14px;
+  border-radius:18px;
+  padding:16px 8px;
   text-align:center;
-  box-shadow:0 4px 12px rgba(0,0,0,0.10);
+  font-weight:600;
   font-size:14px;
-  font-weight:700;
+  box-shadow:0 4px 14px rgba(0,0,0,0.07);
   cursor:pointer;
 }
 
-.page{display:none;}
+.menu-btn i{
+  font-size:26px;
+  margin-bottom:6px;
+}
+
+.page{display:none;padding:16px;}
+
+.back-btn{
+  font-size:15px;
+  margin-bottom:12px;
+  cursor:pointer;
+  font-weight:600;
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
 </style>
 </head>
 <body>
 
 <!-- HEADER -->
 <header>
-  <img src="your_profile_small.jpg" class="profile-img" alt="profile">
-  <h4 style="margin-top:12px;font-weight:700;">VALLURI SRI KRISHNA VARDAN</h4>
-  <div style="font-size:14px;color:#cfcfcf;">CSE CYBER SECURITY | 4th SEM | Div CSE-CYBER3</div>
+  <img src="your_profile_small.jpg" class="profile-photo">
+  <h4 class="mt-2 fw-bold">VALLURI SRI KRISHNA VARDAN</h4>
+  <div style="font-size:13px;color:#cfcfcf;">CSE CYBER SECURITY • 4th SEM • CSE-CYBER3</div>
 </header>
 
-<!-- MENU BUTTONS -->
-<div class="menu-grid">
-  <div class="menu-btn" style="color:#0056d6;" onclick="openPage('attendance')"><i class="bi bi-clipboard2-check" style="font-size:22px;"></i><br>Attendance</div>
-  <div class="menu-btn" style="color:#ff7a00;" onclick="openPage('results')"><i class="bi bi-file-bar-graph" style="font-size:22px;"></i><br>Results</div>
-  <div class="menu-btn" style="color:#28a745;" onclick="openPage('fees')"><i class="bi bi-cash-coin" style="font-size:22px;"></i><br>Fees</div>
-  <div class="menu-btn" style="color:#6f42c1;" onclick="openPage('student')"><i class="bi bi-person-badge" style="font-size:22px;"></i><br>Student Info</div>
-  <div class="menu-btn" style="color:#0db2b5;" onclick="openPage('hostel')"><i class="bi bi-building" style="font-size:22px;"></i><br>Hostel</div>
-</div>
+<!-- HOME MENU GRID -->
+<section id="home" class="page" style="display:block;">
+  <div class="menu-grid">
+
+    <div class="menu-btn" onclick="openPage('attendance')" style="color:#0056d6;">
+      <i class="bi bi-clipboard2-check"></i><br>Attendance
+    </div>
+
+    <div class="menu-btn" onclick="openPage('results')" style="color:#ff7a00;">
+      <i class="bi bi-bar-chart"></i><br>Results
+    </div>
+
+    <div class="menu-btn" onclick="openPage('fees')" style="color:#28a745;">
+      <i class="bi bi-cash-coin"></i><br>Fees
+    </div>
+
+    <div class="menu-btn" onclick="openPage('student')" style="color:#6f42c1;">
+      <i class="bi bi-person-vcard"></i><br>Student Info
+    </div>
+
+    <div class="menu-btn" onclick="openPage('hostel')" style="color:#0db2b5;">
+      <i class="bi bi-building"></i><br>Hostel
+    </div>
+
+  </div>
+</section>
 
 
-<!-- PAGES SECTIONS BELOW -->
-<section id="home" class="page" style="display:block;"></section>
-
-<?php /*--------------------- EXISTING STUDENT / HOSTEL / ATTENDANCE / RESULTS / FEES CODE BELOW ----------------------*/ ?>
-
-
- <!-- STUDENT INFO -->
+   <!-- STUDENT INFO -->
 <section id="student" class="page" style="display:none;">
 
   <div class="card-box">
