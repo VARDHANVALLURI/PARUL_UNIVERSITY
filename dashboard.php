@@ -66,7 +66,7 @@ body {
 
 <body>
 
-<div class="header">STUDENT PORTAL</div>
+<div class="header"> </div>
 
 <!-- ================= HOME PAGE ================ -->
 <section id="home" class="page" style="display:block;">
@@ -75,7 +75,7 @@ body {
     <img src="your_profile_small.jpg" alt="Profile">
     <h3>VALLURI SRI KRISHNA VARDAN</h3>
     <p>Roll No: 2403031260215|48</p>
-    <p>CSE(4CYBER2)BATCH 2</p>
+    <p>CSE(4CYBER3)BATCH 2</p>
   </div>
 
   <div class="grid-menu">
@@ -95,6 +95,10 @@ body {
   <h3>Attendance</h3>
    <!-- ATTENDANCE -->
 
+  <div style="background:#000;color:#fff;padding:12px;border-radius:10px;text-align:center;font-weight:600;font-size:14px;margin-bottom:12px;">
+    ⏳ Attendance updates daily at 3:00 AM • Weekly summary below
+  </div>
+
 
 <?php
 /* ---------------------
@@ -105,8 +109,10 @@ body {
 // You can add/remove dates and slots anytime.
 
 $attendance = [
-    "2025-11-25" => ["P", "P", "P", "P", "P"],     // 5 slots day
-    "2025-11-24" => ["P", "P", "P", "-"],          // 4 slot day
+"2025-12-05"=>["-","P","P","P","P"],
+"2025-12-04"=>["P","P","P","P","P"],
+"2025-12-02"=>["P","P","P","P","P"],
+"2025-12-01"=>["P","P","P","P","-"]
     
 ];
     
@@ -233,14 +239,16 @@ box-shadow:0 2px 12px rgba(0,0,0,0.06);}
 
 <?php
 $subjects = [
-    "Operating Systems"          => ["present" => 01, "total" => 01],
-    "Operating Systems Lab"      => ["present" => 0, "total" => 0],
-    "Python"                     => ["present" => 01, "total" => 01],
-    "Python Lab"                 => ["present" => 01, "total" => 01],
-    "Networking"                 => ["present" => 02, "total" => 02],
-    "Networking Lab"             => ["present" => 0, "total" => 0],
-    "Software Engineering"       => ["present" => 02, "total" => 02],
-    "Software Engineering Lab"   => ["present" => 01, "total" => 01]
+"Operating Systems"=>["present"=>06,"total"=>06],
+"Operating Systems Lab"=>["present"=>02,"total"=>02],
+"Python"=>["present"=>04,"total"=>04],
+"Python Lab"=>["present"=>02,"total"=>02],
+"Networking"=>["present"=>04,"total"=>04],
+"Networking Lab"=>["present"=>02,"total"=>02],
+"Software Engineering"=>["present"=>06,"total"=>06],
+"Software Engineering Lab"=>["present"=>02,"total"=>02],
+"Cryptography"=>["present"=>05,"total"=>05],
+"PGPD"=>["present"=>01,"total"=>02]
 ];
 ?>
 
@@ -393,8 +401,62 @@ $subjects = [
     </div>
 
     <div style="padding:10px 0; text-align:center; font-size:13px; color:#555;">
-      <b>NOTE:</b> Only recent gate passes will be shown.
+      <b>NOTE:</b> ONLY RECENT GATE PASSES WILL BE SHOWN.
     </div>
+  </div>
+   <!-- Mess Menu -->
+  <h4 class="fw-bold mt-4">Mess Menu</h4>
+
+  <div class="tab-buttons">
+    <button class="tab-btn active" onclick="openMenu('mon')">Mon</button>
+    <button class="tab-btn" onclick="openMenu('tue')">Tue</button>
+    <button class="tab-btn" onclick="openMenu('wed')">Wed</button>
+    <button class="tab-btn" onclick="openMenu('thu')">Thu</button>
+    <button class="tab-btn" onclick="openMenu('fri')">Fri</button>
+    <button class="tab-btn" onclick="openMenu('sat')">Sat</button>
+    <button class="tab-btn" onclick="openMenu('sun')">Sun</button>
+  </div>
+
+  <div id="mon" class="menu-box">
+    <div><b>Breakfast:</b> Veg Upma & Chutney | Tea/Coffee</div>
+    <div><b>Lunch:</b> Dudhi Sabji, Dal, Rice, Papad</div>
+    <div><b>Dinner:</b> Dum Aloo, Rice, Roti</div>
+  </div>
+
+  <div id="tue" class="menu-box" style="display:none;">
+    <div><b>Breakfast:</b> Idly & Peanut Chutney | Tea/Coffee</div>
+    <div><b>Lunch:</b> Palak Dal, Rice</div>
+    <div><b>Dinner:</b> Beetroot Dal Curry, Rice</div>
+  </div>
+
+  <div id="wed" class="menu-box" style="display:none;">
+    <div><b>Breakfast:</b> Imli Rice | Tea/Coffee</div>
+    <div><b>Lunch:</b> Jeera Aloo, Tomato Dal</div>
+    <div><b>Dinner:</b> Brinjal Curry, Rice</div>
+  </div>
+
+  <div id="thu" class="menu-box" style="display:none;">
+    <div><b>Breakfast:</b> Onion Pakoda | Tea/Coffee</div>
+    <div><b>Lunch:</b> Cabbage Matar, Dal</div>
+    <div><b>Dinner:</b> Veg Biryani + Raita</div>
+  </div>
+
+  <div id="fri" class="menu-box" style="display:none;">
+    <div><b>Breakfast:</b> Veg Pasta | Tea/Coffee</div>
+    <div><b>Lunch:</b> Drumstick Dal</div>
+    <div><b>Dinner:</b> Tomato Curry, Roti</div>
+  </div>
+
+  <div id="sat" class="menu-box" style="display:none;">
+    <div><b>Breakfast:</b> Semia Upma | Tea/Coffee</div>
+    <div><b>Lunch:</b> Aloo Palak, Dal</div>
+    <div><b>Dinner:</b> Dry Cauliflower</div>
+  </div>
+
+  <div id="sun" class="menu-box" style="display:none;">
+    <div><b>Breakfast:</b> Bread Jam</div>
+    <div><b>Lunch:</b> Chole, Puri, Jeera Rice, Sweet</div>
+    <div><b>Dinner:</b> Sambar Rice</div>
   </div>
 
 </section>
@@ -491,7 +553,7 @@ $subjects = [
   </div>
 
   <div class="alert-fail">
-    ❗ You are failed in 0 subjects(...PROMOTED TO 3rd SEMESTER...)
+    ❗ PROMOTED TO 3RD SEMESTER (O BACKLOGS)
   </div>
 
   <div class="info-box">
@@ -516,46 +578,38 @@ $subjects = [
   </button>
   <h3>Fee Status</h3>
 
-<style>
-.fee-card{
-  background:#fff;
-  padding:16px;
-  border-radius:14px;
-  margin-top:14px;
-  box-shadow:0 2px 12px rgba(0,0,0,0.06);
-}
+  <div class="card p-3 mt-2">
+    <h5 class="fw-bold">Fee Details</h5>
 
-.fee-success{
-  background:#e8fbe8;
-  color:#0d8a26;
-  font-weight:600;
-  padding:14px;
-  border-radius:12px;
-  text-align:center;
-  font-size:15px;
-  line-height:1.6;
-}
+    <div class="table-responsive mt-2">
+      <table class="table table-bordered text-center">
+        <thead style="background:#f8fafc;font-weight:700;">
+          <tr><th>Sr</th><th>Semester</th><th>Fees</th><th>Paid</th><th>Balance</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>1</td><td>1</td><td>1,75,000</td><td>1,75,000</td><td>0</td></tr>
+          <tr><td>2</td><td>2</td><td>1,75,000</td><td>1,75,000</td><td>0</td></tr>
+          <tr style="font-weight:700;background:#f0f0f0;"><td colspan="2">Total</td><td>3,50,000</td><td>3,50,000</td><td>0</td></tr>
+        </tbody>
+      </table>
+    </div>
 
-.fee-note{
-  font-size:13px;
-  color:#444;
-  margin-top:10px;
-  text-align:center;
-}
-</style>
+    <h5 class="fw-bold mt-4">Hostel Fee</h5>
+    <div class="table-responsive mt-2">
+      <table class="table table-bordered text-center">
+        <thead style="background:#f8fafc;font-weight:700;">
+          <tr><th>Hostel</th><th>Year</th><th>Amount</th><th>Paid</th><th>Balance</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>TAGORE BHAWAN - A</td><td>2024-25</td><td>1,19,500</td><td>1,19,500</td><td>0</td></tr>
+          <tr><td>TAGORE BHAWAN - C</td><td>2025-26</td><td>1,24,000</td><td>1,24,000</td><td>0</td></tr>
+        </tbody>
+      </table>
+    </div>
 
-<div class="fee-card">
-  <div class="fee-success">
-    ALL TUITION & HOSTEL FEES HAVE BEEN CLEARED FOR A.Y 2025–26.<br>
-    LOGIN TO <b>GNUMS</b> PORTAL TO DOWNLOAD FEE RECEIPTS.
   </div>
-
-  <div class="fee-note">
-    Last Updated: 26-Nov-2025 • For errors contact Accounts Office
-  </div>
-</div>
-
 </section>
+ 
 
 
 
